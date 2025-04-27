@@ -13,11 +13,18 @@ SMODS.Back {
             func = function(self)
                 for i = 1, #G.playing_cards, 1 do
                     sendDebugMessage(G.playing_cards[i].base.id)
-                    G.playing_cards[i]:set_ability(G.P_CENTERS.m_mult)
+                    G.playing_cards[i]:set_ability('m_mult')
                 end
                 return true
             end
         }))
+    end,
+    calculate = function(self, card, context)
+        if context.playing_card_added then
+            for _, _card in pairs(context.cards) do
+                _card:set_ability('m_mult')
+            end
+        end
     end
 }
 SMODS.Back {
@@ -59,10 +66,17 @@ SMODS.Back {
             func = function(self)
                 for i = 1, #G.playing_cards, 1 do
                     sendDebugMessage(G.playing_cards[i].base.id)
-                    G.playing_cards[i]:set_ability(G.P_CENTERS.m_glass)
+                    G.playing_cards[i]:set_ability('m_glass')
                 end
                 return true
             end
         }))
+    end,
+    calculate = function(self, card, context)
+        if context.playing_card_added then
+            for _, _card in pairs(context.cards) do
+                _card:set_ability('m_glass')
+            end
+        end
     end
 }
