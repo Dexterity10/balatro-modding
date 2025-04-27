@@ -1,0 +1,153 @@
+INFO - [♥] Lovely 0.7.1
+INFO - [♥] Game directory is at "D:\\steamapps\\common\\Balatro"
+INFO - [♥] Writing logs to "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods"
+INFO - [♥] Cleaning up dumps directory at "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods\\lovely\\dump"
+INFO - [♥] Initialization complete in 126ms
+INFO - [♥] Applied 14 patches to 'main.lua'
+INFO - [♥] Applied 5 patches to 'engine/controller.lua'
+INFO - [♥] Applied 15 patches to 'back.lua'
+INFO - [♥] Applied 7 patches to 'tag.lua'
+INFO - [♥] Applied 1 patch to 'engine/moveable.lua'
+INFO - [♥] Applied 2 patches to 'engine/sprite.lua'
+INFO - [♥] Applied 2 patches to 'engine/animatedsprite.lua'
+INFO - [♥] Applied 47 patches to 'functions/misc_functions.lua'
+INFO - [♥] Applied 33 patches to 'game.lua'
+INFO - [♥] Applied 1 patch to 'globals.lua'
+INFO - [♥] Applied 3 patches to 'engine/ui.lua'
+INFO - [♥] Applied 73 patches to 'functions/UI_definitions.lua'
+INFO - [♥] Applied 44 patches to 'functions/state_events.lua'
+INFO - [♥] Applied 104 patches to 'functions/common_events.lua'
+INFO - [♥] Applied 46 patches to 'functions/button_callbacks.lua'
+WARN - [♥] Pattern 'if G.GAME.blind and G.GAME.blind.in_blind then G.E_MANAGER:add_event(Event({ func = function() G.GAME.blind:set_blind(nil, true, nil); return true end })) end' on target 'card.lua' for pattern patch from smods-1.0.0-beta-0323b\lovely\calculate_card_added.toml resulted in 2 matches, wanted 1
+WARN - [♥] Ignoring excess matches
+INFO - [♥] Applied 151 patches to 'card.lua'
+INFO - [♥] Applied 9 patches to 'cardarea.lua'
+INFO - [♥] Applied 36 patches to 'blind.lua'
+INFO - [♥] Applied 2 patches to 'engine/text.lua'
+INFO - [G] Failed to connect to the debug server
+INFO - [G] 2025-04-22 18:20:47 :: DEBUG :: DebugConsole :: Steamodded Debug Socket started !
+INFO - [♥] Applied 9 patches to 'engine/sound_manager.lua'
+INFO - [♥] Applied 1 patch to 'engine/save_manager.lua'
+INFO - [G] 2025-04-22 18:20:49 :: TRACE :: Loader :: Processing Mod file (Legacy header): KusoMods.lua
+INFO - [G] 2025-04-22 18:20:49 :: TRACE :: Loader :: Saving Mod Info: KusoMods
+INFO - [G] 2025-04-22 18:20:49 :: WARN  :: Loader :: Found lone Lua file wilddeck.lua in Mods directory :: Please place the files for each mod in its own subdirectory.
+INFO - [G] 2025-04-22 18:20:49 :: TRACE :: Loader :: Processing Mod file (Legacy header): wilddeck.lua
+INFO - [G] 2025-04-22 18:20:49 :: TRACE :: Loader :: Saving Mod Info: wildDeck
+INFO - [G] 2025-04-22 18:20:49 :: TRACE :: Loader :: Mod wildDeck was unable to load: 
+INFO - [G] 2025-04-22 18:20:49 :: INFO  :: TIMER :: [0000] Injected Language in 0.002 ms
+INFO - [G] 2025-04-22 18:20:49 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 2.968 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0007] Injected Atlas in 753.713 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0001] Injected Sound in 0.443 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0008] Injected Stake in 0.436 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0004] Injected Rarity in 0.024 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0004] Injected ObjectType in 0.038 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0053] Injected Center in 0.905 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0007] Injected Undiscovered Sprite in 0.015 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0002] Injected Blind in 0.020 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0004] Injected Seal in 0.171 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0004] Injected Suit in 0.100 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0013] Injected Rank in 0.215 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0028] Injected DeckSkin in 0.475 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0012] Injected PokerHand in 0.207 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0020] Injected Challenge in 0.159 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0000] Injected Tag in 0.001 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0004] Injected Sticker in 0.104 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0000] Injected Shader in 0.001 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0002] Injected Keybind in 0.013 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0000] Injected Achievement in 0.052 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0002] Injected nil in 0.044 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0021] Injected Draw Step in 0.182 ms
+INFO - [G] 2025-04-22 18:20:50 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 0.765 ms
+INFO - [G] line not found
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: functions/button_callbacks.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] 2025-04-22 18:24:07 :: ERROR :: StackTrace :: Oops! The game crashed
+[SMODS KusoMods "KusoMods.lua"]:197: attempt to call global 'cardareaemplace' (a nil value)
+Stack Traceback
+===============
+(1) Lua local 'handler' at file 'main.lua:612'
+	Local variables:
+	 msg = string: "[SMODS KusoMods \"KusoMods.lua\"]:197: attempt to call global 'cardareaemplace' (a nil value)"
+	 (*temporary) = Lua function '?' (defined at line 31 of chunk [SMODS _ "src/logging.lua"])
+	 (*temporary) = string: "Oops! The game crashed\
+"
+(2) LÖVE global at file 'boot.lua:352'
+	Local variables:
+	 errhand = Lua function '?' (defined at line 598 of chunk main.lua)
+	 handler = Lua function '?' (defined at line 598 of chunk main.lua)
+(3) Lua method 'emplace' at file 'KusoMods.lua:197' (from mod with id KusoMods)
+	Local variables:
+	 self = table: 0x09c53dd8  {click_offset:table: 0x04b9e1b0, children:table: 0x083c7268, shuffle_amt:0, T:table: 0x083c6440, offset:table: 0x04ba6558, role:table: 0x042c3750 (more...)}
+	 card = table: 0x04d5f888  {added_to_deck:true, from_area:table: 0x07a0bb18, click_offset:table: 0x04b6b488, bypass_discovery_center:true, children:table: 0x042b0858, ambient_tilt:0.2 (more...)}
+	 location = nil
+	 stay_flipped = nil
+	 added_card_index = number: 1
+	 card_neg = boolean: false
+	 reditions = table: 0x08376c18  {}
+	 (for index) = number: 1
+	 (for limit) = number: 4
+	 (for step) = number: 1
+	 i = number: 1
+	 newcard = table: 0x08376ca0  {click_offset:table: 0x04cc1ae8, children:table: 0x045f1760, ambient_tilt:0.2, T:table: 0x04c6d138, offset:table: 0x04a92eb0, role:table: 0x04c83300 (more...)}
+	 (*temporary) = nil
+	 (*temporary) = table: 0x09c53dd8  {click_offset:table: 0x04b9e1b0, children:table: 0x083c7268, shuffle_amt:0, T:table: 0x083c6440, offset:table: 0x04ba6558, role:table: 0x042c3750 (more...)}
+	 (*temporary) = table: 0x08376ca0  {click_offset:table: 0x04cc1ae8, children:table: 0x045f1760, ambient_tilt:0.2, T:table: 0x04c6d138, offset:table: 0x04a92eb0, role:table: 0x04c83300 (more...)}
+	 (*temporary) = nil
+	 (*temporary) = nil
+	 (*temporary) = nil
+	 (*temporary) = string: "attempt to call global 'cardareaemplace' (a nil value)"
+(4) Lua function '?' at file 'functions/button_callbacks.lua:2277' (best guess)
+	Local variables:
+	 e = table: 0x04d3e990  {pixellated_rect:table: 0x03fff978, click_offset:table: 0x0b582418, children:table: 0x04d3e9b8, parent:table: 0x04942a08, T:table: 0x0b582328 (more...)}
+	 mute = nil
+	 nosave = nil
+	 card = table: 0x04d5f888  {added_to_deck:true, from_area:table: 0x07a0bb18, click_offset:table: 0x04b6b488, bypass_discovery_center:true, children:table: 0x042b0858, ambient_tilt:0.2 (more...)}
+	 area = table: 0x07a0bb18  {click_offset:table: 0x07a0be70, static_rotation:false, shuffle_amt:0, parent:table: 0x07986070, T:table: 0x07a0bcb8, offset:table: 0x07a0caf0 (more...)}
+	 prev_state = number: 999
+	 dont_dissolve = nil
+	 delay_fac = number: 1
+	 nc = nil
+	 select_to = nil
+(5) Lua method 'click' at file 'engine/ui.lua:981'
+	Local variables:
+	 self = table: 0x04d3e990  {pixellated_rect:table: 0x03fff978, click_offset:table: 0x0b582418, children:table: 0x04d3e9b8, parent:table: 0x04942a08, T:table: 0x0b582328 (more...)}
+(6) Lua method 'update' at file 'engine/controller.lua:375'
+	Local variables:
+	 self = table: 0x040801e8  {held_button_times:table: 0x04111278, focus_cursor_stack_level:1, snap_cursor_to:table: 0x0465d258, interrupt:table: 0x041112c8, GAMEPAD:table: 0x03f31f20 (more...)}
+	 dt = number: 0.00653738
+(7) Lua upvalue 'gameUpdateRef' at file 'game.lua:2686'
+	Local variables:
+	 self = table: 0x03f249d8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x04a8c160, F_ENGLISH_ONLY:false, viewed_stake:1, HUD:table: 0x04a17e48 (more...)}
+	 dt = number: 0.00653738
+(8) Lua method 'update' at Steamodded file 'src/ui.lua:84' 
+	Local variables:
+	 self = table: 0x03f249d8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x04a8c160, F_ENGLISH_ONLY:false, viewed_stake:1, HUD:table: 0x04a17e48 (more...)}
+	 dt = number: 0.00653738
+(9) Lua field 'update' at file 'main.lua:995'
+	Local variables:
+	 dt = number: 0.00653738
+(10) Lua function '?' at file 'main.lua:934' (best guess)
+(11) global C function 'xpcall'
+(12) LÖVE function at file 'boot.lua:377' (best guess)
+	Local variables:
+	 func = Lua function '?' (defined at line 905 of chunk main.lua)
+	 inerror = boolean: true
+	 deferErrhand = Lua function '(LÖVE Function)' (defined at line 348 of chunk [love "boot.lua"])
+	 earlyinit = Lua function '(LÖVE Function)' (defined at line 355 of chunk [love "boot.lua"])
+
+INFO - [G] file not found: functions/button_callbacks.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] 2025-04-22 18:24:07 :: INFO  :: StackTrace :: Additional Context:
+Balatro Version: 1.0.1o-FULL
+Modded Version: 1.0.0~BETA-0323b-STEAMODDED
+LÖVE Version: 11.5.0
+Lovely Version: 0.7.1
+Platform: Windows
+Steamodded Mods:
+    1: Kuso Modpack by Kusoro [ID: KusoMods]
+Lovely Mods:

@@ -1,0 +1,14 @@
+INFO - [♥] Lovely 0.7.1
+INFO - [♥] Game directory is at "D:\\steamapps\\common\\Balatro"
+INFO - [♥] Writing logs to "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "/home/deck/.config/r2modmanPlus-local/Balatro/profiles/wahoo/mods"
+INFO - [♥] Cleaning up dumps directory at "/home/deck/.config/r2modmanPlus-local/Balatro/profiles/wahoo/mods\\lovely\\dump"
+INFO - [♥] Initialization complete in 23ms
+INFO - [♥] Applied 2 patches to 'main.lua'
+INFO - [♥] Applied 1 patch to 'game.lua'
+INFO - [G] Failed to connect to the debug server
+INFO - [G] 2025-04-22 16:43:36 :: DEBUG :: DebugConsole :: Steamodded Debug Socket started !
+INFO - [G] 2025-04-22 16:43:39 :: INFO  :: SpriteAPI :: All the sprites have been loaded!
+INFO - [G] 2025-04-22 16:43:41 :: INFO  :: SpriteAPI :: All the sprites have been loaded!
+INFO - [G] 2025-04-22 16:43:41 :: INFO  :: Loader :: 
+INFO - [G] 2025-04-22 16:43:42 :: INFO  :: SpriteAPI :: All the sprites have been loaded!

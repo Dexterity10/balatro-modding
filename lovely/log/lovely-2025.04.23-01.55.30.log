@@ -1,0 +1,8 @@
+INFO - [♥] Lovely 0.7.1
+INFO - [♥] Game directory is at "D:\\steamapps\\common\\Balatro"
+INFO - [♥] Writing logs to "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods"
+ERROR - [♥] lovely-injector has crashed: 
+panicked at crates/lovely-core/src/lib.rs:350:21:
+Failed to read patch file at "C:\\users\\steamuser\\AppData\\Roaming\\Balatro\\Mods\\smods-1.0.0-beta-0323b\\lovely\\calculate_card_added.toml":
+Os { code: 3, kind: NotFound, message: "Path not found." }

@@ -1,0 +1,20 @@
+{
+    "id": "afewdex",
+    "name": "A Few Dex",
+    "author": [
+        "Dexterity"
+    ],
+    "description": "The simplest grouping of modded decks for the sake of my understanding of Lua",
+    "prefix": "Dex",
+    "main_file": "AFewDex.lua",
+    "priority": 0,
+    "badge_colour": "1860a8",
+    "badge_text_colour": "ff3870",
+    "display_name": "A Few Dex",
+    "version": "0.2.0",
+    "dependencies": [
+        "Steamodded (>=1.*)",
+        "Lovely (>=0.6)"
+    ],
+    "dump_loc": false
+}
