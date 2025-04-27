@@ -11,9 +11,9 @@ SMODS.Back {
     apply = function(self)
         G.E_MANAGER:add_event(Event({
             func = function(self)
-                for i = 1, #G.playing_cards, 1 do
-                    sendDebugMessage(G.playing_cards[i].base.id)
-                    G.playing_cards[i]:set_ability('m_mult')
+                for _, _card in pairs(G.playing_cards) do
+                    sendDebugMessage(_card.base.id)
+                    _card:set_ability('m_mult')
                 end
                 return true
             end
@@ -64,9 +64,9 @@ SMODS.Back {
     apply = function(self)
         G.E_MANAGER:add_event(Event({
             func = function(self)
-                for i = 1, #G.playing_cards, 1 do
-                    sendDebugMessage(G.playing_cards[i].base.id)
-                    G.playing_cards[i]:set_ability('m_glass')
+                for _, _card in pairs(G.playing_cards) do
+                    sendDebugMessage(_card.base.id)
+                    _card:set_ability('m_glass')
                 end
                 return true
             end
