@@ -1,0 +1,20 @@
+{
+    "id": "funky_dexterity",
+    "name": "some funky guys",
+    "author": [
+        "dexterity0"
+    ],
+    "description": "my first mod with jokers",
+    "prefix": "sfg",
+    "main_file": "FunkyGuys.lua",
+    "priority": 0,
+    "badge_colour": "FF230A",
+    "badge_text_colour": "ABC123",
+    "display_name": "Funky.",
+    "version": "0.1.0",
+    "dependencies": [
+        "Steamodded (>=1.*)",
+        "Lovely (>=0.6)"
+    ],
+    "dump_loc": false
+}
