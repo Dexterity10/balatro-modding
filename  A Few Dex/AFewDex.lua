@@ -6,7 +6,7 @@ SMODS.Back {
     },
     loc_txt = {
         name = "mult Deck",
-        text = {"{C:MULT}+4{} mult"}
+        text = {"{C:MULT}+4{} mult", "Added cards also get changed"}
     },
     apply = function(self)
         G.E_MANAGER:add_event(Event({
@@ -59,7 +59,7 @@ SMODS.Back {
     },
     loc_txt = {
         name = "Glass Deck",
-        text = {"{C:white,X:mult}X2{} Mult", "Everything is brittle."}
+        text = {"{C:white,X:mult}X2{} Mult", "Everything is brittle.", "Added cards also get changed"}
     },
     apply = function(self)
         G.E_MANAGER:add_event(Event({
