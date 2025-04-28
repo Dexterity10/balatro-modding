@@ -15,7 +15,7 @@ SMODS.DeckSkin {
     palettes = {{
         key = "lc",
         ranks = {"Jack", "Queen", "King"},
-        display_ranks = {"King", "Queen", "Jack"},
+        -- display_ranks = {"King", "Queen", "Jack"},
         atlas = prefix .. "_lc",
         pos_style = "collab"
     }}
