@@ -2,7 +2,7 @@ SMODS.Atlas {
     key = "fewdex",
     px = 71,
     py = 95,
-    path = "AFewDex_Atlas.png"
+    path = "AFewDex_Spritesheet.png"
 }
 
 SMODS.Back {
