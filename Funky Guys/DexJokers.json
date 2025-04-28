@@ -1,16 +1,16 @@
 {
-    "id": "funky_dexterity",
-    "name": "some funky guys",
+    "id": "jokers_dexterity",
+    "name": "Dex's Jokers",
     "author": [
         "dexterity0"
     ],
     "description": "my first mod with jokers",
-    "prefix": "sfg",
-    "main_file": "FunkyGuys.lua",
+    "prefix": "dexjok",
+    "main_file": "Jokers.lua",
     "priority": 0,
     "badge_colour": "FF230A",
     "badge_text_colour": "ABC123",
-    "display_name": "Funky.",
+    "display_name": "Dex's Jokers",
     "version": "0.1.0",
     "dependencies": [
         "Steamodded (>=1.*)",
