@@ -1,8 +1,16 @@
+SMODS.Atlas {
+    key = "fewdex",
+    px = 71,
+    py = 95,
+    path = "AFewDex_Atlas.png"
+}
+
 SMODS.Back {
     key = "multDeck",
+    atlas = "fewdex",
     pos = {
-        x = 2,
-        y = 1
+        x = 0,
+        y = 0
     },
     loc_txt = {
         name = "mult Deck",
@@ -29,10 +37,10 @@ SMODS.Back {
 }
 SMODS.Back {
     key = "polyDeck",
-    isPoly = true,
+    atlas = "fewdex",
     pos = {
-        x = 6,
-        y = 1
+        x = 1,
+        y = 0
     },
     loc_txt = {
         name = "Polychrome Deck",
@@ -52,9 +60,9 @@ SMODS.Back {
 }
 SMODS.Back {
     key = "glassDeck",
-    isGlass = true,
+    atlas = "fewdex",
     pos = {
-        x = 5,
+        x = 0,
         y = 1
     },
     loc_txt = {
@@ -79,4 +87,27 @@ SMODS.Back {
             end
         end
     end
+}
+SMODS.Back {
+    key = "NegativeDeck",
+    atlas = "fewdex",
+    pos = {
+        x = 1,
+        y = 1
+    },
+    loc_txt = {
+        name = "Negative Deck",
+        text = {"All Jokers are {C:dark_edition}Negative{}"}
+    },
+    calculate = function(self, deck, context)
+        G.E_MANAGER:add_event(Event({
+            func = function(self)
+                if context.card_added then
+                    context.card:set_edition('e_negative')
+                end
+                return true
+            end
+        }))
+    end
+
 }
