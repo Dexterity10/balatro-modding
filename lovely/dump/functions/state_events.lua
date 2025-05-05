@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '70567135b730a8c3d3c4350321d4e799b92b152f3b143c423a1a3ef3d94af274'
+LOVELY_INTEGRITY = '523c42fbcc7b076aa5c6c0429522de0d3e3ab87a1ca3412fc212ae8c24ee4e84'
 
 function win_game()
     if (not G.GAME.seeded and not G.GAME.challenge) or SMODS.config.seeded_unlocks then
@@ -634,7 +634,7 @@ G.FUNCS.evaluate_play = function(e)
                 if joker_eval.retriggers then
                     for rt = 1, #joker_eval.retriggers do
                         local rt_eval, rt_post = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true, retrigger_joker = true})
-                        table.insert(effects, {joker_eval.retriggers[rt]})
+                        table.insert(effects, {retriggers = joker_eval.retriggers[rt]})
                         table.insert(effects, rt_eval)
                         for _, v in ipairs(rt_post) do effects[#effects+1] = v end
                     end
@@ -658,7 +658,7 @@ G.FUNCS.evaluate_play = function(e)
                         if joker_eval.retriggers then
                             for rt = 1, #joker_eval.retriggers do
                                 local rt_eval, rt_post = eval_card(_joker, {full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, [other_key] = _card, retrigger_joker = true})
-                                table.insert(effects, {joker_eval.retriggers[rt]})
+                                table.insert(effects, {retriggers = joker_eval.retriggers[rt]})
                                 table.insert(effects, rt_eval)
                                 for _, v in ipairs(rt_post) do effects[#effects+1] = v end
                             end

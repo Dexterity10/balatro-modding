@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '6bfb50f94e7e5c42bad5b92f2d9055dfa06150b047726e5742071530eaec54c0'
+LOVELY_INTEGRITY = '9cb28b4072cdc13d6aeba9d57cd28d0f7ae8c676b199cd847afce94b8b2fd91b'
 
 --Updates all display information for all displays for a given screenmode. Returns the key for the resolution option cycle
 --
@@ -1011,7 +1011,7 @@ function find_joker(name, non_debuff)
 end
 
 function get_blind_amount(ante)
-if G.GAME.modifiers.scaling and G.GAME.modifiers.scaling > 3 then return SMODS.get_blind_amount(ante) end
+if G.GAME.modifiers.scaling and (G.GAME.modifiers.scaling ~= 1 and G.GAME.modifiers.scaling ~= 2 and G.GAME.modifiers.scaling ~= 3) then return SMODS.get_blind_amount(ante) end
   local k = 0.75
   if not G.GAME.modifiers.scaling or G.GAME.modifiers.scaling == 1 then 
     local amounts = {
@@ -1572,6 +1572,8 @@ function save_with_action(action)
 end
 
 function save_run()
+    if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK
+        or G.STATE == G.STATES.BUFFOON_PACK or G.STATE == G.STATES.STANDARD_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then return end
   if G.F_NO_SAVING == true then return end
   local cardAreas = {}
   for k, v in pairs(G) do
@@ -1692,7 +1694,14 @@ function init_localization()
           center.text_parsed = {}
           if not center.text then else
           for _, line in ipairs(center.text) do
-            center.text_parsed[#center.text_parsed+1] = loc_parse_string(line)
+              if type(line) == 'table' then
+                  center.text_parsed[#center.text_parsed+1] = {}
+                  for _, new_line in ipairs(line) do
+                       center.text_parsed[#center.text_parsed][#center.text_parsed[#center.text_parsed]+1] = loc_parse_string(new_line)
+                  end
+              else
+                  center.text_parsed[#center.text_parsed+1] = loc_parse_string(line)
+              end
           end
           center.name_parsed = {}
           for _, line in ipairs(type(center.name) == 'table' and center.name or {center.name}) do
@@ -1885,6 +1894,24 @@ function localize(args, misc_cat)
   if ret_string then return ret_string end
 
   if loc_target then 
+    args.AUT = args.AUT or {}
+    args.AUT.box_colours = {}
+    if (args.type == 'descriptions' or args.type == 'other') and type(loc_target.text) == 'table' and type(loc_target.text[1]) == 'table' then
+        args.AUT.multi_box = {}
+        for i, box in ipairs(loc_target.text_parsed) do
+            for j, line in ipairs(box) do
+                local final_line = SMODS.localize_box(line, args)
+                if i == 1 or next(args.AUT.info) then
+                    args.nodes[#args.nodes+1] = final_line -- Sends main box to AUT.main
+                elseif not next(args.AUT.info) then 
+                    args.AUT.multi_box[i-1] = args.AUT.multi_box[i-1] or {}
+                    args.AUT.multi_box[i-1][#args.AUT.multi_box[i-1]+1] = final_line
+                end
+                if not next(args.AUT.info) then args.AUT.box_colours[i] = args.vars.box_colours and args.vars.box_colours[i] or G.C.UI.BACKGROUND_WHITE end
+            end
+        end
+        return
+    end
     for _, lines in ipairs(args.type == 'unlocks' and loc_target.unlock_parsed or args.type == 'name' and loc_target.name_parsed or (args.type == 'text' or args.type == 'tutorial' or args.type == 'quips') and loc_target or loc_target.text_parsed) do
       local final_line = {}
       for _, part in ipairs(lines) do

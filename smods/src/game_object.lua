@@ -1,5 +1,3 @@
-LOVELY_INTEGRITY = '4dc3a6cc48d192a73504d72429880997d3bc1da308c29862a2ec032163b3158d'
-
 --- STEAMODDED CORE
 --- MODULE API
 
@@ -1401,12 +1399,6 @@ Set `prefix_config.key = false` on your object instead.]]):format(obj.key), obj.
                         {n=G.UIT.R,config={minh =0.2}, nodes={}},
                         {n=G.UIT.R,config={align = "tm",padding = 0.2, minh = 1.2, minw = 1.8, r=0.15,colour = G.C.GREY, one_press = true, button = 'skip_booster', hover = true,shadow = true, func = 'can_skip_booster'}, nodes = {
                             {n=G.UIT.T, config={text = localize('b_skip'), scale = 0.5, colour = G.C.WHITE, shadow = true, focus_args = {button = 'y', orientation = 'bm'}, func = 'set_button_pip'}}}}}}}}}}}}
-                            if (self.group_key=='k_arcana_pack' or self.group_key=='k_spectral_pack') and used_voucher and used_voucher('recycle_area') then
-                                local new={n=G.UIT.C,config={align = "tm",padding = 0.2, minh = 1.2, minw = 1.8, r=0.15,colour = G.C.RED, one_press = true, button = 'uselessLOL discard_booster', hover = true,shadow = true, func = 'can_discard_booster'}, nodes = {
-                                    {n=G.UIT.T, config={text = localize('b_discard'), scale = 0.5, colour = G.C.WHITE, shadow = true, focus_args = {button = 'y', orientation = 'bm'}, func = 'set_button_pip'}}
-                                    }}
-                                table.insert(t.nodes[1].nodes[3].nodes[3].nodes,2,new)
-                            end
             return t
         end,
         take_ownership_by_kind = function(self, kind, obj, silent)

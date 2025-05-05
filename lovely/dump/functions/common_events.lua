@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'cbba865553925bcceeb252114efb8504402e98eea1bf7aec8e8c93de4a09d891'
+LOVELY_INTEGRITY = '455412794e68f3597cd45254a2210fafe1f2b018acac192e1953e7d3712dfde0'
 
 function set_screen_positions()
     if G.STAGE == G.STAGES.RUN then
@@ -592,6 +592,7 @@ function eval_card(card, context)
                 ret.enhancement = enhancement
             end
         end
+        if context.extra_enhancement then return ret end
         if card.edition then
             local edition = card:calculate_edition(context)
             if edition then
@@ -604,7 +605,8 @@ function eval_card(card, context)
                 ret.seals = seals
             end
         end
-        for k,v in pairs(SMODS.Stickers) do
+        for _,k in ipairs(SMODS.Sticker.obj_buffer) do
+            local v = SMODS.Stickers[k]
             local sticker = card:calculate_sticker(context, k)
             if sticker then
                 ret[v] = sticker
@@ -687,16 +689,6 @@ function eval_card(card, context)
                 right_card.ability.temp_repetition=(right_card.ability.temp_repetition or 0)+1
             end
         end
-    
-        local jokers = card:calculate_joker(context)
-        if jokers then
-            ret.jokers = jokers
-        end
-    
-        local edition = card:calculate_edition(context)
-        if edition then
-            ret.edition = edition
-        end
     end
     if context.end_of_round and context.cardarea == G.hand and context.playing_card_end_of_round then
         local end_of_round = card:get_end_of_round_effect(context)
@@ -734,11 +726,6 @@ function eval_card(card, context)
                 ret.end_of_round = end_of_round
             end
         end
-
-        local jokers = card:calculate_joker(context)
-        if jokers then 
-            ret.jokers = jokers
-        end
     end
 
     if card.ability.set == 'Enhanced' then
@@ -747,19 +734,21 @@ function eval_card(card, context)
             ret.enhancement = enhancement
         end
     end
+    if context.extra_enhancement then return ret end
     if card.edition then
         local edition = card:calculate_edition(context)
         if edition then
             ret.edition = edition
         end
     end
-    if card.seal and not card.ability.extra_enhancement then
+    if card.seal then
         local seals = card:calculate_seal(context)
         if seals then
             ret.seals = seals
         end
     end
-    for k,v in pairs(SMODS.Stickers) do
+    for _,k in ipairs(SMODS.Sticker.obj_buffer) do
+        local v = SMODS.Stickers[k]
         local sticker = card:calculate_sticker(context, k)
         if sticker then
             ret[v] = sticker
@@ -1143,7 +1132,7 @@ function add_round_eval_row(config)
                     config.saved and 
                     {n=G.UIT.C, config={padding = 0.05, align = 'cm'}, nodes={
                         {n=G.UIT.R, config={align = 'cm'}, nodes={
-                            {n=G.UIT.O, config={object = DynaText({string = {' '..localize('ph_mr_bones')..' '}, colours = {G.C.FILTER}, shadow = true, pop_in = 0, scale = 0.5*scale, silent = true})}}
+                            {n=G.UIT.O, config={object = DynaText({string = {' '..localize(type(SMODS.saved) == 'string' and SMODS.saved or 'ph_mr_bones')..' '}, colours = {G.C.FILTER}, shadow = true, pop_in = 0, scale = 0.5*scale, silent = true})}}
                         }}
                     }}
                     or {n=G.UIT.C, config={padding = 0.05, align = 'cm'}, nodes={
@@ -2418,7 +2407,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
             end
         end
 
-        if not SMODS.bypass_create_card_edition then
+        if not SMODS.bypass_create_card_edition and not card.edition then
             local edition = poll_edition('edi'..(key_append or '')..G.GAME.round_resets.ante)
         card:set_edition(edition)
         check_for_unlock({type = 'have_edition'})

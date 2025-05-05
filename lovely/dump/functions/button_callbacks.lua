@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'aa5c7e3b649c51f7d2db70847622fdc5f71900dff39bd3d3e52d3ec79d66711f'
+LOVELY_INTEGRITY = 'fc3c40688b49e31343673f6efff62576b89e082a4d9592e1378d341c13288a5a'
 
 --Moves the tutorial to the next step in queue
 --
@@ -2462,8 +2462,8 @@ G.FUNCS.check_for_buy_space = function(card)
   if card.ability.set ~= 'Voucher' and
     card.ability.set ~= 'Enhanced' and
     card.ability.set ~= 'Default' and
-    not (card.ability.set == 'Joker' and #G.jokers.cards < G.jokers.config.card_limit + ((card.edition and card.edition.negative) and 1 or 0)) and
-    not (card.ability.consumeable and #G.consumeables.cards < G.consumeables.config.card_limit + ((card.edition and card.edition.negative) and 1 or 0)) then
+        not (card.ability.set == 'Joker' and #G.jokers.cards < G.jokers.config.card_limit + (card.edition and card.edition.card_limit or 0)) and
+        not (card.ability.consumeable and #G.consumeables.cards < G.consumeables.config.card_limit + (card.edition and card.edition.card_limit or 0)) then
       alert_no_space(card, card.ability.consumeable and G.consumeables or G.jokers)
     return false
   end

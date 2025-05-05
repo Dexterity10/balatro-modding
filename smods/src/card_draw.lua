@@ -1,5 +1,3 @@
-LOVELY_INTEGRITY = '79a05ea56288773c4223a4110d4b525a9eed1dddacf623e2f8a94a1f0b800978'
-
 SMODS.DrawSteps = {}
 SMODS.DrawStep = SMODS.GameObject:extend {
     obj_table = SMODS.DrawSteps,
@@ -153,16 +151,11 @@ SMODS.DrawStep {
             self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
         elseif not self:should_draw_base_shader() then
             -- Don't render base dissolve shader.
-        elseif not self.greyed and (get_betmma_shaders and get_betmma_shaders(self)) then 
-            --do nothing
         elseif not self.greyed then
             self.children.center:draw_shader('dissolve')
         end
 
          --If the card is not yet discovered
-         if draw_betmma_shaders~=nil then
-             draw_betmma_shaders(self)
-         end
          if not self.config.center.discovered and (self.ability.consumeable or self.config.center.unlocked) and not self.config.center.demo and not self.bypass_discovery_center then
             local shared_sprite = (self.ability.set == 'Edition' or self.ability.set == 'Joker') and G.shared_undiscovered_joker or G.shared_undiscovered_tarot
             local scale_mod = -0.05 + 0.05*math.sin(1.8*G.TIMERS.REAL)
@@ -203,8 +196,6 @@ SMODS.DrawStep {
             end
         elseif not self:should_draw_base_shader() then
             -- Don't render base dissolve shader.
-        elseif not self.greyed and (get_betmma_shaders and get_betmma_shaders(self)) then 
-            --do nothing
         elseif not self.greyed then
             if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card)) then
                 self.children.front:draw_shader('dissolve')
@@ -212,21 +203,6 @@ SMODS.DrawStep {
         end
 
         local center = self.config.center
-        if self.ability.set == 'Joker' and self.ability.betmma_enhancement then
-            local center = G.P_CENTERS[self.ability.betmma_enhancement]
-            local sprite=Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS[self.ability.betmma_enhancement_atlas], center.pos)
-            --sprite.VT.scale=0.95
-            sprite.states.hover = self.states.hover
-            sprite.states.click = self.states.click
-            sprite.states.drag = self.states.drag
-            sprite.states.collide.can = false
-            sprite:set_role({major = self, role_type = 'Glued', draw_major = self})
-            love.graphics.setBlendMode("multiply", 'premultiplied')
-            sprite:draw_shader('dissolve', nil, nil, nil, self.children.center)
-            love.graphics.setBlendMode("alpha")
-            --self.ability.betmma_enhancement_sprite:draw()
-            sprite:remove()             
-        end
         if center.set == 'Default' or center.set == 'Enhanced' and not center.replace_base_card then
             if not center.no_suit then
                 local suit = SMODS.Suits[self.base.suit] or {}

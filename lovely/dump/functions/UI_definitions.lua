@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'c4828511a96b7a88b5a8d60da737748276da6b27e54a945a477bc714742d1647'
+LOVELY_INTEGRITY = '5a5c8eb4395cca4c9a75957e7c1ed664283c6713ca7598b775d9d0a20e0db438'
 
 --Create a global UIDEF that contains all UI definition functions\
 --As a rule, these contain functions that return a table T representing the definition for a UIBox
@@ -1193,6 +1193,14 @@ end
           badges.mod_set = nil
       end
 
+      AUT.main.background_colour = AUT.main.background_colour or AUT.box_colours and AUT.box_colours[1] or nil
+      local multi_boxes = {}
+      if AUT.multi_box then
+          for i, box in ipairs(AUT.multi_box) do
+              box.background_colour = box.background_colour or AUT.box_colours and AUT.box_colours[i+1] or nil
+              multi_boxes[#multi_boxes+1] = desc_from_rows(box)
+          end
+      end
       if AUT.info then
         for k, v in ipairs(AUT.info) do
           info_boxes[#info_boxes+1] =
@@ -1227,8 +1235,8 @@ end
           table.insert(info_cols, {n=G.UIT.C, config = {align="cm"}, nodes = col})
       end
       info_boxes = {{n=G.UIT.R, config = {align="cm", padding = 0.05, card_pos = card.T.x }, nodes = info_cols}}
-      return {n=G.UIT.ROOT, config = {align = 'cm', colour = G.C.CLEAR}, nodes={
-        {n=G.UIT.C, config={align = "cm", func = 'show_infotip',object = Moveable(),ref_table = next(info_boxes) and info_boxes or nil}, nodes={
+      local ret_val = {n=G.UIT.ROOT, config = {align = 'cm', colour = G.C.CLEAR}, nodes={
+          {n=G.UIT.C, config={align = "cm", func = 'show_infotip',object = Moveable(),ref_table = next(info_boxes) and info_boxes or nil}, nodes={
           {n=G.UIT.R, config={padding = outer_padding, r = 0.12, colour = lighten(G.C.JOKER_GREY, 0.5), emboss = 0.07}, nodes={
             {n=G.UIT.R, config={align = "cm", padding = 0.07, r = 0.1, colour = adjust_alpha(card_type_background, 0.8)}, nodes={
               name_from_rows(AUT.name, is_playing_card and G.C.WHITE or nil),
@@ -1238,6 +1246,12 @@ end
           }}
         }},
       }}
+              if multi_boxes[1] then
+                  for i=#multi_boxes, 1, -1 do
+                      table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes, 3, multi_boxes[i])
+                  end
+              end
+              return ret_val
     end
   end
 
@@ -3705,13 +3719,13 @@ function create_UIBox_your_collection()
     end
   }))
   local consumable_nodes = {}
-  if #SMODS.ConsumableType.ctype_buffer <= 3 then
-      for _, key in ipairs(SMODS.ConsumableType.ctype_buffer) do
+  if #SMODS.ConsumableType.visible_buffer <= 3 then
+      for _, key in ipairs(SMODS.ConsumableType.visible_buffer) do
           local id = 'your_collection_'..key:lower()..'s'
           consumable_nodes[#consumable_nodes+1] = UIBox_button({button = id, label = {localize('b_'..key:lower()..'_cards')}, count = G.DISCOVER_TALLIES[key:lower()..'s'], minw = 4, id = id, colour = G.C.SECONDARY_SET[key]})
       end
   else
-      consumable_nodes[#consumable_nodes+1] = UIBox_button({ button = 'your_collection_consumables', label = {localize('b_stat_consumables'), localize{ type = 'variable', key = 'c_types', vars = {#SMODS.ConsumableType.ctype_buffer} } }, count = G.DISCOVER_TALLIES['consumeables'], minw = 4, minh = 4, id = 'your_collection_consumables', colour = G.C.FILTER })
+      consumable_nodes[#consumable_nodes+1] = UIBox_button({ button = 'your_collection_consumables', label = {localize('b_stat_consumables'), localize{ type = 'variable', key = 'c_types', vars = {#SMODS.ConsumableType.visible_buffer} } }, count = G.DISCOVER_TALLIES['consumeables'], minw = 4, minh = 4, id = 'your_collection_consumables', colour = G.C.FILTER })
   end
   local t = create_UIBox_generic_options({ back_func = G.STAGE == G.STAGES.RUN and 'options' or 'exit_overlay_menu', contents = {
     {n=G.UIT.C, config={align = "cm", padding = 0.15}, nodes={
