@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '6b842b181b708eb7767593fc2036a2446e681f3976236aabf106da59d98ba3ba'
+LOVELY_INTEGRITY = '5e276f7551261965f2f57cc22015a5a01a84ba714677e3ffe2eae4ed20cc55a0'
 
 --- STEAMODDED CORE
 --- MODULE STACKTRACE
@@ -860,6 +860,10 @@ injectStackTrace()
 -- --------MOD CORE API STACKTRACE END-----------
 
 if (love.system.getOS() == 'OS X' ) and (jit.arch == 'arm64' or jit.arch == 'arm') then jit.off() end
+do
+    local logger = require("debugplus.logger")
+    logger.registerLogHandler()
+end
 require "engine/object"
 require "bit"
 require "engine/string_packer"
@@ -999,9 +1003,16 @@ function love.draw()
 	--Perf monitoring checkpoint
     timer_checkpoint(nil, 'draw', true)
 	G:draw()
+	do
+	    local console = require("debugplus.console")
+	    console.doConsoleRender()
+	    timer_checkpoint('DebugPlus Console', 'draw')
+	end
 end
 
 function love.keypressed(key)
+local console = require("debugplus.console")
+if not console.consoleHandleKey(key) then return end
 	if not _RELEASE_MODE and G.keybind_mapping[key] then love.gamepadpressed(G.CONTROLLER.keyboard_controller, G.keybind_mapping[key])
 	else
 		G.CONTROLLER:set_HID_flags('mouse')

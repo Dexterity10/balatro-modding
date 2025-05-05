@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '4194b371aafc59541faaa018a024c4c971c433a3bd4d0f7db064c818e7e44f66'
+LOVELY_INTEGRITY = '70567135b730a8c3d3c4350321d4e799b92b152f3b143c423a1a3ef3d94af274'
 
 function win_game()
     if (not G.GAME.seeded and not G.GAME.challenge) or SMODS.config.seeded_unlocks then
@@ -236,6 +236,12 @@ function new_round()
       func = function()
             G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
             G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+            if used_voucher and used_voucher('garbage_bag') then
+                G.GAME.current_round.discards_left = G.GAME.current_round.discards_left + (G.GAME.betmma_discards_left_ref or 0)
+            end
+            if used_voucher and used_voucher('handbag') then
+                G.GAME.current_round.hands_left = G.GAME.current_round.hands_left + (G.GAME.betmma_hands_left_ref or 0)
+            end
             G.GAME.current_round.hands_played = 0
             G.GAME.current_round.discards_used = 0
             G.GAME.current_round.any_hand_drawn = nil

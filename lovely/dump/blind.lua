@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '5b5527931f57a67363ae0f87dbb87ecf3ac02fad07017d6a0938765396caaf73'
+LOVELY_INTEGRITY = '8ad8b748c4424b022b8e6234e01405cea813173fe9a414a803795978fd7c0f29'
 
 --class
 Blind = Moveable:extend()
@@ -118,7 +118,24 @@ function Blind:set_blind(blind, reset, silent)
 
         if not blind then self.chips = 0 end
 
-        G.GAME.current_round.dollars_to_be_earned = self.dollars > 0 and (string.rep(localize('$'), self.dollars)..'') or ('')
+            if self.boss and betmma_rich_boss_bonus then
+                self.dollars=self.dollars+betmma_rich_boss_bonus()
+            end
+            local function string_rep(string,times)
+                local ans=""
+                if times<=8 then
+                    for i=1,times do
+                        ans=ans..string
+                    end
+                else
+                    ans=string..times
+                end
+                return ans
+            end
+            G.GAME.current_round.dollars_to_be_earned = self.dollars > 0 and (string_rep(localize('$'), self.dollars)..'') or ('')
+            if self.boss and betmma_rich_boss_bonus then
+                self.dollars=self.dollars-betmma_rich_boss_bonus()
+            end
         G.HUD_blind.alignment.offset.y = -10
         G.HUD_blind:recalculate(false)
 

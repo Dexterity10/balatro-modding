@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'cdd9e89d1533b1bf1a37702011981b84779de0c008ea531fc48249b0906557b3'
+LOVELY_INTEGRITY = '1d5f7dadc47bebfd3494356b07f613bc5860afe59f19db316e74ef9eb2178df4'
 
 --Class
 CardArea = Moveable:extend()
@@ -295,7 +295,7 @@ function CardArea:draw()
                     {n=G.UIT.B, config={w = 0.1,h=0.1}},
                     {n=G.UIT.T, config={ref_table = self.config, ref_value = 'card_count', scale = 0.3, colour = G.C.WHITE}},
                     {n=G.UIT.T, config={text = '/', scale = 0.3, colour = G.C.WHITE}},
-                    {n=G.UIT.T, config={ref_table = self.config, ref_value = 'card_limit', scale = 0.3, colour = G.C.WHITE}},
+                    {n=G.UIT.T, config={ref_table = self.config, ref_value = self==G.jokers and used_voucher and used_voucher('half_life') and 'card_limit_ref' or 'card_limit', scale = 0.3, colour = G.C.WHITE}},
                     {n=G.UIT.B, config={w = 0.1,h=0.1}}
                 }} or nil
 

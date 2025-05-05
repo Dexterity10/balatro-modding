@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '8ca79219fea21650d637a42352f71627a95599487875b90ecfecf712942f6d56'
+LOVELY_INTEGRITY = '5d5256e03cc3b775ad08b30b81cf4784fc16e3ee1fd987e1f4228c412373c4f4'
 
 ---@class Controller
 Controller = Object:extend()
@@ -824,7 +824,7 @@ function Controller:key_press_update(key, dt)
             end
         end
     end
-    if not _RELEASE_MODE then
+    if not _RELEASE_MODE and require("debugplus.core").isOkayToHandleDebugForKey(key) then
         if key == 'tab' and not G.debug_tools then
             G.debug_tools = UIBox{
                 definition = create_UIBox_debug_tools(),
@@ -855,6 +855,8 @@ function Controller:key_press_update(key, dt)
                         add_joker(_card.config.center.key)
                         _card:set_sprites(_card.config.center)
                     end
+                    local debugplus = require("debugplus.core")
+                    debugplus.handleSpawn(self, _card)
                     if _card.ability.consumeable and G.consumeables and #G.consumeables.cards < G.consumeables.config.card_limit then
                         add_joker(_card.config.center.key)
                         _card:set_sprites(_card.config.center)
@@ -906,13 +908,14 @@ function Controller:key_press_update(key, dt)
       if key == "space" then
           live_test()
       end
+      local debugplus = require("debugplus.core")
+      debugplus.handleKeys(self, key, dt)
       if key == 'v' then
-        if not G.prof then G.prof = require "engine/profile"; G.prof.start()
-        else    G.prof:stop();
-            print(G.prof.report()); G.prof = nil end
+        debugplus.toggleProfiler()
         end
        if key == "p" then
            G.SETTINGS.perf_mode = not G.SETTINGS.perf_mode
+           debugplus.togglePerfUI()
        end
     end
 end

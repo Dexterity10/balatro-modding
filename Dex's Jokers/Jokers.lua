@@ -72,7 +72,7 @@ SMODS.Joker {
     key = "schoolOfFish",
     loc_txt = {
         name = "School of Fish",
-        text = {"Adds 1 Fish to your deck", "{C:red}+1 mult{} per fish in your deck", "(Currently +#1#)"}
+        text = {"Adds 1 Fish to your deck", "{C:red}+1{} mult per fish in your deck", "(Currently {C:red}+#1#{})"}
     },
     atlas = "dexsJokers",
     pos = {

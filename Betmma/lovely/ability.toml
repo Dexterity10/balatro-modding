@@ -1,0 +1,212 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+
+# Create Ability Area 
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+if USING_BETMMA_ABILITIES then -- not adding area if Betmma_Abilities.lua isn't executed
+    self.ABILITY_W=0.8
+    self.ABILITY_H=0.8
+    self.betmma_abilities = CardArea(G.jokers.T.x + G.jokers.T.w + 0.2+1.1*G.CARD_W, G.jokers.T.y+2.2*G.CARD_H, 1.2*G.CARD_W, 0.3*G.CARD_H, { -- G.jokers.T.x + G.jokers.T.w + 0.2 is G.consumables.x but some deck removes consumables area
+            card_limit = 3,
+            type = "betmma_ability",
+            highlight_limit = 1
+    })
+    self.betmma_abilities.card_w=self.betmma_abilities.card_w*34/71
+end
+'''
+match_indent = true
+
+
+# Create Abilities in shop
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if G.load_shop_booster then'''
+position = "before"
+payload = '''
+if G.shop_abilities then
+    if G.load_shop_abilities then 
+        nosave_shop = true
+        G.shop_abilities:load(G.load_shop_abilities)
+        for k, v in ipairs(G.shop_abilities.cards) do
+            create_shop_card_ui(v)
+            v:start_materialize()
+        end
+        G.load_shop_abilities = nil
+    else
+        for i = 1, G.GAME.shop.ability_max - #G.shop_abilities.cards do
+            local center=pseudorandom_element(G.P_CENTER_POOLS['Ability'],pseudoseed('shop_abilities'))
+            local card = create_card('Ability', nil, nil, nil, nil, nil, nil, 'sho')
+            --local card = Card(G.shop_abilities.T.x + G.shop_abilities.T.w/2,
+            --G.shop_abilities.T.y+G.ABILITY_W*(i-1), G.ABILITY_W, G.ABILITY_H, G.P_CARDS.empty, center,{bypass_discovery_center = true, bypass_discovery_ui = true})
+            if cry_misprintize then
+                cry_misprintize(card)
+            end
+                if G.GAME.modifiers.cry_enable_flipped_in_shop and pseudorandom('cry_flip_'..G.GAME.round_resets.ante) > 0.7 then
+                    card.cry_flipped = true
+                end
+            create_shop_card_ui(card, 'Ability', nil)
+            --card:start_materialize()
+            G.shop_abilities:emplace(card)
+        end
+    end
+end
+'''
+match_indent = true
+
+
+
+# Let Abilities go to Ability Area when bought from shop
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.consumeables:emplace(c1)"
+position = "at"
+payload = '''
+    if c1.ability.set=='Ability' and G.betmma_abilities then -- betmma_abilities
+        G.betmma_abilities:emplace(c1)
+    else
+        G.consumeables:emplace(c1)
+    end
+'''
+match_indent = true
+
+# Prevent using Abilities costs pack card 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "elseif G.GAME.pack_choices and G.GAME.pack_choices > 1 then"
+position = "before"
+payload = '''
+elseif card.ability.set=='Ability' then -- betmma_abilities
+    G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
+    G.booster_pack.alignment.offset.py = nil
+'''
+match_indent = true
+
+
+# Prevent dissolve when using Abilities in pack. Also emplace Ability card when bought from pack
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK*"
+position = "after"
+payload = '''
+if card.ability.set=='Ability' then -- betmma_abilities
+    area:remove_from_highlighted(card)
+    play_sound('cardSlide2', nil, 0.3)
+    dont_dissolve = true
+    if card.area~=G.betmma_abilities and G.betmma_abilities then
+        area:remove_card(card)
+        G.betmma_abilities:emplace(card)
+    end
+    nc=false
+end
+'''
+match_indent = true
+
+# modify draw_shader function to support sending values in _send while also sending original values like mouse_screen_pos.
+[[patches]]
+[patches.pattern]
+target = "engine/sprite.lua"
+pattern = '''G.SHADERS[_shader or 'dissolve']:send("shadow",(not not _shadow_height))'''
+position = "after"
+payload = '''
+if type(_send)=='table' and _send.betmma==true then
+    --G.SHADERS[_shader or 'dissolve']:send((SMODS.Shaders[_shader or 'dissolve'] and SMODS.Shaders[_shader or 'dissolve'].original_key) or _shader,_send.vanilla)
+    for k, v in ipairs(_send.extra) do
+        G.SHADERS[_shader]:send(v.name, v.val or (v.func and v.func()) or v.ref_table[v.ref_value])
+    end
+    _send=nil
+end
+'''
+match_indent = true
+
+# shuffle cards if having shuffle ability
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 then'''
+position = "at"
+payload = '''
+if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 and #G.discard.cards > 0 and has_ability and has_ability('shuffle')then
+    G.FUNCS.draw_from_discard_to_deck()
+elseif #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 then
+'''
+match_indent = true
+
+# shuffle cards if having shuffle ability
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if #G.hand.cards < 1 and #G.deck.cards < 1 then'''
+position = "at"
+payload = '''
+if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.discard.cards > 0 and has_ability and has_ability('shuffle')then
+    G.FUNCS.draw_from_discard_to_deck()
+elseif #G.hand.cards < 1 and #G.deck.cards < 1 then
+'''
+match_indent = true
+
+# draw extra enhancement layer on jokers
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/card_draw.lua"]'
+pattern = '''if center.set == 'Default' or center.set == 'Enhanced' and not center.replace_base_card then'''
+position = "before"
+payload = '''
+if self.ability.set == 'Joker' and self.ability.betmma_enhancement then
+    local center = G.P_CENTERS[self.ability.betmma_enhancement]
+    local sprite=Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS[self.ability.betmma_enhancement_atlas], center.pos)
+    --sprite.VT.scale=0.95
+    sprite.states.hover = self.states.hover
+    sprite.states.click = self.states.click
+    sprite.states.drag = self.states.drag
+    sprite.states.collide.can = false
+    sprite:set_role({major = self, role_type = 'Glued', draw_major = self})
+    love.graphics.setBlendMode("multiply", 'premultiplied')
+    sprite:draw_shader('dissolve', nil, nil, nil, self.children.center)
+    love.graphics.setBlendMode("alpha")
+    --self.ability.betmma_enhancement_sprite:draw()
+    sprite:remove()             
+end
+'''
+match_indent = true
+
+
+# add extra enhancement on joker to info_queue in generate_card_ui() (not patching to "elseif _c.set == 'Joker' then" part is because modded jokers go into "elseif _c.generate_ui and type(_c.generate_ui) == 'function' then" before "_c.set == 'Joker'")
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if main_end then"
+position = "before"
+payload = '''
+if _c.set == "Joker" and card and card.ability.betmma_enhancement then
+    info_queue[#info_queue+1] = G.P_CENTERS[card.ability.betmma_enhancement]
+end
+'''
+match_indent = true
+
+# Call calculate_enhancement_betmma on jokers under joker_main context
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''-- TARGET: evaluate your own general effects'''
+position = "before"
+payload = '''
+if card.ability.set=="Joker" and card.ability.betmma_enhancement then -- context.joker_main and 
+    local effects={}
+    local eval = card:calculate_enhancement_betmma(context)
+    table.insert(effects, {jokers=eval})
+    SMODS.trigger_effects(effects,card)
+end
+'''
+match_indent = true

@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'c77785201c48c48177b2a67146a483a0d4bab79f7e05926118bc2c6a10921767'
+LOVELY_INTEGRITY = 'f44827178d7153ba29a81ebed71152591f9d1d1ed4937359ffc3d941a5b0dabf'
 
 --class
 Card = Moveable:extend()
@@ -337,6 +337,8 @@ SMODS.enh_cache:write(self, nil)
         type = center.config.type or '',
         order = center.order or nil,
         forced_selection = self.ability and self.ability.forced_selection or nil,
+        perma_mult = self.ability and self.ability.perma_mult or 0,
+        perma_p_dollars = self.ability and self.ability.perma_p_dollars or 0,
         perma_bonus = self.ability and self.ability.perma_bonus or 0,
         perma_x_chips = self.ability and self.ability.perma_x_chips or 0,
         perma_mult = self.ability and self.ability.perma_mult or 0,

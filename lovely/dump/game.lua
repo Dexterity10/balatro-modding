@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '4290718b162a76576195e16a3dcceea331b5873d5ee253a83d7fb603a0c10cf0'
+LOVELY_INTEGRITY = 'd50eca2ed202c5e89c3c00d986c54b4ba97672b4699f9205be63ddaa15a1af75'
 
 --Class
 Game = Object:extend()
@@ -2286,6 +2286,26 @@ function Game:start_run(args)
 
     set_screen_positions()
 
+    if USING_BETMMA_ABILITIES then -- not adding area if Betmma_Abilities.lua isn't executed
+        self.ABILITY_W=0.8
+        self.ABILITY_H=0.8
+        self.betmma_abilities = CardArea(G.jokers.T.x + G.jokers.T.w + 0.2+1.1*G.CARD_W, G.jokers.T.y+2.2*G.CARD_H, 1.2*G.CARD_W, 0.3*G.CARD_H, { -- G.jokers.T.x + G.jokers.T.w + 0.2 is G.consumables.x but some deck removes consumables area
+                card_limit = 3,
+                type = "betmma_ability",
+                highlight_limit = 1
+        })
+        self.betmma_abilities.card_w=self.betmma_abilities.card_w*34/71
+    end
+    if USING_BETMMA_SPELLS then -- not adding area if Betmma_Spells.lua isn't executed
+        self.ABILITY_W=0.8
+        self.ABILITY_H=0.8
+        self.betmma_spells = CardArea(G.jokers.T.x + G.jokers.T.w + 0.2+1.1*G.CARD_W, G.jokers.T.y+2.6*G.CARD_H, 1.2*G.CARD_W, 0.3*G.CARD_H, {
+                card_limit = 3,
+                type = "betmma_ability",
+                highlight_limit = 2
+        })
+        self.betmma_spells.card_w=self.betmma_spells.card_w*34/71
+    end
     G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})
     G.SPLASH_BACK:set_alignment({
         major = G.play,
@@ -2502,7 +2522,7 @@ function Game:update(dt)
     self.TIMERS.BACKGROUND = self.TIMERS.BACKGROUND + dt*(G.ARGS.spin and G.ARGS.spin.amount or 0)
     self.real_dt = dt
 
-    if self.real_dt > 0.05 then print('LONG DT @ '..math.floor(G.TIMERS.REAL)..': '..self.real_dt) end
+    if require('debugplus.config').getValue('enableLongDT') and self.real_dt > 0.05 then print('LONG DT @ '..math.floor(G.TIMERS.REAL)..': '..self.real_dt) end
     if not G.fbf or G.new_frame then
         G.new_frame = false
 
@@ -3016,11 +3036,23 @@ love.graphics.pop()
 
     timer_checkpoint('canvas', 'draw')
 
-    if not _RELEASE_MODE and G.DEBUG and not G.video_control and G.F_VERBOSE then 
+    if require("debugplus.config").getValue("showHUD") and not G.video_control and G.F_VERBOSE then
         love.graphics.push()
         love.graphics.setColor(0, 1, 1,1)
         local fps = love.timer.getFPS( )
-        love.graphics.print("Current FPS: "..fps, 10, 10)
+        do
+            local otherSize = 0
+            for k,v in pairs(G.E_MANAGER.queues or {}) do 
+                if k ~= 'base' then 
+                    otherSize = otherSize + #v
+                end
+            end
+            if otherSize ~= 0 then
+                love.graphics.print(string.format("Current FPS: %d\nBase event queue: %d\nOther event queues: %d", fps, #(G.E_MANAGER.queues and G.E_MANAGER.queues.base or {}), otherSize), 10, 10)
+            else
+                love.graphics.print(string.format("Current FPS: %d\nBase event queue: %d", fps, #(G.E_MANAGER.queues and G.E_MANAGER.queues.base or {})), 10, 10)
+            end
+        end
 
         if G.check and G.SETTINGS.perf_mode then
             local section_h = 30
@@ -3039,6 +3071,10 @@ love.graphics.pop()
                         end
                         love.graphics.rectangle('fill', 10+poll_w*kk,  20 + v_off, 5*poll_w, -(vv)*resolution)
                     end
+                    v_off = v_off + section_h
+                    end
+                    local v_off = v_off - section_h * #b.checkpoint_list
+                    for k, v in ipairs(b.checkpoint_list) do
                     love.graphics.setColor(a == 2 and 0.5 or 1, a == 2 and 1 or 0.5, 1,1)
                     love.graphics.print(v.label..': '..(string.format("%.2f",1000*(v.average or 0)))..'\n', 10, -section_h + 30 + v_off)
                     v_off = v_off + section_h
@@ -3101,14 +3137,18 @@ function Game:update_selecting_hand(dt)
         self.buttons.states.visible = true
     end
 
-    if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 then
+    if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 and #G.discard.cards > 0 and has_ability and has_ability('shuffle')then
+        G.FUNCS.draw_from_discard_to_deck()
+    elseif #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 then
         end_round()
     end
 
     if self.shop then self.shop:remove(); self.shop = nil end
     if not G.STATE_COMPLETE then
         G.STATE_COMPLETE = true
-        if #G.hand.cards < 1 and #G.deck.cards < 1 then
+        if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.discard.cards > 0 and has_ability and has_ability('shuffle')then
+            G.FUNCS.draw_from_discard_to_deck()
+        elseif #G.hand.cards < 1 and #G.deck.cards < 1 then
             end_round()
         else
             save_run()
@@ -3183,6 +3223,33 @@ function Game:update_shop(dt)
                                     end
                                     
 
+                                    if G.shop_abilities then
+                                        if G.load_shop_abilities then 
+                                            nosave_shop = true
+                                            G.shop_abilities:load(G.load_shop_abilities)
+                                            for k, v in ipairs(G.shop_abilities.cards) do
+                                                create_shop_card_ui(v)
+                                                v:start_materialize()
+                                            end
+                                            G.load_shop_abilities = nil
+                                        else
+                                            for i = 1, G.GAME.shop.ability_max - #G.shop_abilities.cards do
+                                                local center=pseudorandom_element(G.P_CENTER_POOLS['Ability'],pseudoseed('shop_abilities'))
+                                                local card = create_card('Ability', nil, nil, nil, nil, nil, nil, 'sho')
+                                                --local card = Card(G.shop_abilities.T.x + G.shop_abilities.T.w/2,
+                                                --G.shop_abilities.T.y+G.ABILITY_W*(i-1), G.ABILITY_W, G.ABILITY_H, G.P_CARDS.empty, center,{bypass_discovery_center = true, bypass_discovery_ui = true})
+                                                if cry_misprintize then
+                                                    cry_misprintize(card)
+                                                end
+                                                    if G.GAME.modifiers.cry_enable_flipped_in_shop and pseudorandom('cry_flip_'..G.GAME.round_resets.ante) > 0.7 then
+                                                        card.cry_flipped = true
+                                                    end
+                                                create_shop_card_ui(card, 'Ability', nil)
+                                                --card:start_materialize()
+                                                G.shop_abilities:emplace(card)
+                                            end
+                                        end
+                                    end
                                     if G.load_shop_booster then 
                                         nosave_shop = true
                                         G.shop_booster:load(G.load_shop_booster)
@@ -3213,6 +3280,12 @@ function Game:update_shop(dt)
                                         end
                                         for i = 1, #G.GAME.tags do
                                             G.GAME.tags[i]:apply_to_run({type = 'shop_final_pass'})
+                                                end
+                                                if used_voucher and used_voucher('bargain_aisle') then
+                                                    bargain_aisle_effect()
+                                                end
+                                                if used_voucher and used_voucher('clearance_aisle') then
+                                                    clearance_aisle_effect()
                                         end
                                     end
                                 end

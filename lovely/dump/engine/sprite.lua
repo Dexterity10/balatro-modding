@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'f8f07d63bcd92886aea85046430bbb88e6f1f9642ef91181b8ce642f99ad6358'
+LOVELY_INTEGRITY = '338e82f712f2be7e72b97561aa4ee46aeae4412ab49ae9514e2b8a82345e3b76'
 
 --Class
 Sprite = Moveable:extend()
@@ -105,6 +105,16 @@ function Sprite:draw_shader(_shader, _shadow_height, _send, _no_tilt, other_obj,
         G.SHADERS[_shader or 'dissolve']:send("burn_colour_1",_draw_major.dissolve_colours and _draw_major.dissolve_colours[1] or G.C.CLEAR)
         G.SHADERS[_shader or 'dissolve']:send("burn_colour_2",_draw_major.dissolve_colours and _draw_major.dissolve_colours[2] or G.C.CLEAR)
         G.SHADERS[_shader or 'dissolve']:send("shadow",(not not _shadow_height))
+        if type(_send)=='table' and _send.betmma==true then
+            --G.SHADERS[_shader or 'dissolve']:send((SMODS.Shaders[_shader or 'dissolve'] and SMODS.Shaders[_shader or 'dissolve'].original_key) or _shader,_send.vanilla)
+            for k, v in ipairs(_send.extra) do
+                G.SHADERS[_shader]:send(v.name, v.val or (v.func and v.func()) or v.ref_table[v.ref_value])
+            end
+            _send=nil
+        end
+        if _shader=='tentacle' then
+            G.SHADERS[_shader or 'dissolve']:send("real_time",G.TIMERS.REAL - (G.vortex_time or 0))
+        end
         if _send then
             G.SHADERS[_shader or 'dissolve']:send((SMODS.Shaders[_shader or 'dissolve'] and SMODS.Shaders[_shader or 'dissolve'].original_key) or _shader,_send)
         end

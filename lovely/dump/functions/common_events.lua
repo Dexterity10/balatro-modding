@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'cdea602cb75831bda95bdc3a16bd06a3c2a0496c303ed79c7932755f839ae916'
+LOVELY_INTEGRITY = 'cbba865553925bcceeb252114efb8504402e98eea1bf7aec8e8c93de4a09d891'
 
 function set_screen_positions()
     if G.STAGE == G.STAGES.RUN then
@@ -612,6 +612,28 @@ function eval_card(card, context)
         end
         
         -- TARGET: evaluate your own repetition effects
+        -- evaluate repetition effects of Omnicard and Mirror voucher. calculate over_retriggered_ratio.
+        if used_voucher and used_voucher('omnicard') and SMODS.has_enhancement(card, 'm_wild') then
+            ret.omnicard={
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+        card.ability.over_retriggered_ratio=1
+        if card.ability.temp_repetition and card.ability.temp_repetition>0 then
+            ret.temp_repetition={
+                message = localize('k_again_ex'),
+                repetitions = card.ability.temp_repetition,
+                card = card
+            }
+            if ret.temp_repetition.repetitions>OVER_RETRIGGER_LIMIT then
+                card.ability.over_retriggered_ratio=ret.temp_repetition.repetitions/OVER_RETRIGGER_LIMIT
+                ret.temp_repetition.repetitions=OVER_RETRIGGER_LIMIT
+                card_eval_status_text(card,'extra',nil,nil,nil,{message=localize('over_retriggered')..tostring(card.ability.over_retriggered_ratio)})
+            end
+            card.ability.temp_repetition=0
+        end
         return ret
     end
     
@@ -628,7 +650,7 @@ function eval_card(card, context)
         end
     
         local x_mult = card:get_chip_x_mult(context)
-        if x_mult > 0 then
+        if TalismanCompat(x_mult) > TalismanCompat(0) then
             ret.playing_card.x_mult = x_mult
         end
     
@@ -638,11 +660,33 @@ function eval_card(card, context)
         end
     
         local x_chips = card:get_chip_x_bonus()
-        if x_chips > 0 then
+        if TalismanCompat(x_chips) > TalismanCompat(0) then
             ret.playing_card.x_chips = x_chips
         end
     
         -- TARGET: main scoring on played cards
+        if USING_BETMMA_SPELLS and G.betmma_spells then
+            local effects={}
+            for k=1, #G.betmma_spells.cards do
+                --calculate the spell individual card effects
+                local eval = G.betmma_spells.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = context.scoring_hand, scoring_name = context.text, poker_hands = context.poker_hands, other_card = card, individual = true, no_retrigger_anim = true})
+                if eval then 
+                    table.insert(effects, {jokers=eval})
+                end 
+            end
+            
+            SMODS.trigger_effects(effects,card)
+        end
+        if used_voucher and used_voucher('mirror') and SMODS.has_enhancement(card, 'm_steel') then -- Mirror voucher add temp repetition to card when main scoring
+            local index=1
+            while G.play.cards[index]~=card and index<=#G.play.cards do
+                index=index+1
+            end
+            if index<#G.play.cards then
+                local right_card=G.play.cards[index+1]
+                right_card.ability.temp_repetition=(right_card.ability.temp_repetition or 0)+1
+            end
+        end
     
         local jokers = card:calculate_joker(context)
         if jokers then
@@ -684,6 +728,12 @@ function eval_card(card, context)
         end
     
         -- TARGET: main scoring on held cards
+        if used_voucher and used_voucher('echo_chamber') then -- Echo Chamber voucher calculate end of round effect on held cards
+            local end_of_round = card:get_end_of_round_effect(context)
+            if end_of_round then
+                ret.end_of_round = end_of_round
+            end
+        end
 
         local jokers = card:calculate_joker(context)
         if jokers then 
@@ -716,7 +766,19 @@ function eval_card(card, context)
         end
     end
     
+    if card.ability.set=="Joker" and card.ability.betmma_enhancement then -- context.joker_main and 
+        local effects={}
+        local eval = card:calculate_enhancement_betmma(context)
+        table.insert(effects, {jokers=eval})
+        SMODS.trigger_effects(effects,card)
+    end
     -- TARGET: evaluate your own general effects
+    if used_voucher and used_voucher('echo_wall') and context.discard and card==context.other_card then -- Echo Wall voucher calculate end of round effect on discarded cards
+        local end_of_round = card:get_end_of_round_effect(context)
+        if end_of_round then
+            ret.end_of_round = end_of_round
+        end
+    end
     local post_trig = {}
     local areas = SMODS.get_card_areas('jokers')
     local area_set = {}
@@ -983,7 +1045,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
     end
     delay = delay*1.25
 
-    if amt > 0 or amt < 0 then
+    if TalismanCompat(amt) > TalismanCompat(0) or TalismanCompat(amt) < TalismanCompat(0) then
         if extra and extra.instant then
             if extrafunc then extrafunc() end
             attention_text({
@@ -2143,6 +2205,9 @@ _rarity = (_legendary and 4) or (type(_rarity) == "number" and ((_rarity > 0.95 
 _rarity = ({Common = 1, Uncommon = 2, Rare = 3, Legendary = 4})[_rarity] or _rarity
 local rarity = _rarity or SMODS.poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''))
 
+                if _append=='BetmmaAssigningRarity' and (_legendary) then
+                    rarity=_legendary
+                end
             _starting_pool, _pool_key = G.P_JOKER_RARITY_POOLS[rarity], 'Joker'..rarity..((not _legendary and _append) or '')
         elseif SMODS.ObjectTypes[_type] and SMODS.ObjectTypes[_type].rarities then
             local rarities = SMODS.ObjectTypes[_type].rarities
@@ -2884,6 +2949,20 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
     if specific_vars and specific_vars.bonus_h_dollars then
         localize{type = 'other', key = 'card_extra_h_dollars', nodes = desc_nodes, vars = {SMODS.signed_dollars(specific_vars.bonus_h_dollars)}}
     end
+        if card and card.ability.perma_mult then
+            if TalismanCompat(card.ability.perma_mult)>TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {card.ability.perma_mult}}
+            elseif TalismanCompat(card.ability.perma_mult)<TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_mult_neg', nodes = desc_nodes, vars = {card.ability.perma_mult}}
+            end
+        end
+        if card and card.ability.perma_p_dollars then
+            if TalismanCompat(card.ability.perma_p_dollars)>TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_p_dollars', nodes = desc_nodes, vars = {card.ability.perma_p_dollars}}
+            elseif TalismanCompat(card.ability.perma_p_dollars)<TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_p_dollars_neg', nodes = desc_nodes, vars = {card.ability.perma_p_dollars}}
+            end
+        end
     elseif _c.set == 'Enhanced' then 
         if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
@@ -2927,6 +3006,20 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
     if specific_vars and specific_vars.bonus_h_dollars and _c.effect ~= 'Gold Card' then
         localize{type = 'other', key = 'card_extra_h_dollars', nodes = desc_nodes, vars = {SMODS.signed_dollars(specific_vars.bonus_h_dollars)}}
     end
+        if card and card.ability.perma_mult then
+            if TalismanCompat(card.ability.perma_mult)>TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {card.ability.perma_mult}}
+            elseif TalismanCompat(card.ability.perma_mult)<TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_mult_neg', nodes = desc_nodes, vars = {card.ability.perma_mult}}
+            end
+        end
+        if card and card.ability.perma_p_dollars then
+            if TalismanCompat(card.ability.perma_p_dollars)>TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_p_dollars', nodes = desc_nodes, vars = {card.ability.perma_p_dollars}}
+            elseif TalismanCompat(card.ability.perma_p_dollars)<TalismanCompat(0) then
+                localize{type = 'other', key = 'card_extra_p_dollars_neg', nodes = desc_nodes, vars = {card.ability.perma_p_dollars}}
+            end
+        end
     elseif _c.set == 'Booster' then 
         local desc_override = 'p_arcana_normal'
         if _c.name == 'Arcana Pack' then desc_override = 'p_arcana_normal'; loc_vars = {cfg.choose, cfg.extra}
@@ -3037,6 +3130,9 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
        localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = _c.vars or loc_vars}
    end
 
+    if _c.set == "Joker" and card and card.ability.betmma_enhancement then
+        info_queue[#info_queue+1] = G.P_CENTERS[card.ability.betmma_enhancement]
+    end
     if main_end then 
         desc_nodes[#desc_nodes+1] = main_end 
     end
