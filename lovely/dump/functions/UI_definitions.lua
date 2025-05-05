@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '5a5c8eb4395cca4c9a75957e7c1ed664283c6713ca7598b775d9d0a20e0db438'
+LOVELY_INTEGRITY = '58d807ea00f02d7b9320ad3ed5c5640bdff5bc714626f63272d242d0b779d4b6'
 
 --Create a global UIDEF that contains all UI definition functions\
 --As a rule, these contain functions that return a table T representing the definition for a UIBox
@@ -1635,21 +1635,6 @@ function create_UIBox_blind_choice(type, run_info)
   local extras = nil
   local stake_sprite = get_stake_sprite(G.GAME.stake or 1, 0.5)
 
-      local betmma_extra_blind_money=0
-      if type=='Boss' and betmma_rich_boss_bonus then
-          betmma_extra_blind_money=betmma_extra_blind_money+betmma_rich_boss_bonus()
-      end
-      local function string_rep(string,times)
-          local ans=""
-          if times<=8 then
-              for i=1,times do
-                  ans=ans..string
-              end
-          else
-              ans=string..times
-          end
-          return ans
-      end
   G.GAME.orbital_choices = G.GAME.orbital_choices or {}
   G.GAME.orbital_choices[G.GAME.round_resets.ante] = G.GAME.orbital_choices[G.GAME.round_resets.ante] or {}
 
@@ -1750,7 +1735,7 @@ function create_UIBox_blind_choice(type, run_info)
               }},
               _reward and {n=G.UIT.R, config={align = "cm"}, nodes={
                 {n=G.UIT.T, config={text = localize('ph_blind_reward'), scale = 0.35, colour = disabled and G.C.UI.TEXT_INACTIVE or G.C.WHITE, shadow = not disabled}},
-                    {n=G.UIT.T, config={text = string_rep(localize("$"), blind_choice.config.dollars+betmma_extra_blind_money)..'+', scale = 0.35, colour = disabled and G.C.UI.TEXT_INACTIVE or G.C.MONEY, shadow = not disabled}}
+                {n=G.UIT.T, config={text = string.rep(localize("$"), blind_choice.config.dollars)..'+', scale = 0.35, colour = disabled and G.C.UI.TEXT_INACTIVE or G.C.MONEY, shadow = not disabled}}
               }} or nil,
             }},
           }},

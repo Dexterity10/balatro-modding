@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'fc3c40688b49e31343673f6efff62576b89e082a4d9592e1378d341c13288a5a'
+LOVELY_INTEGRITY = 'fd1dbe35867c57a5f2370f3aac6b29dddf03e2b08c19f3fc049b36d79dc5cc24'
 
 --Moves the tutorial to the next step in queue
 --
@@ -2254,26 +2254,6 @@ end
           dont_dissolve = true
       end
       if (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) then
-      if card.ability.set=='Spell' and area==G.pack_cards then -- betmma_spells
-          area:remove_from_highlighted(card)
-          play_sound('cardSlide2', nil, 0.3)
-          dont_dissolve = true
-          area:remove_card(card)
-          G.betmma_spells:emplace(card)
-          nc=false
-      else
-          G.TEMP_FLAG_TO_LET_BELOW_PATCH_READ=1
-      end
-      if card.ability.set=='Ability' then -- betmma_abilities
-          area:remove_from_highlighted(card)
-          play_sound('cardSlide2', nil, 0.3)
-          dont_dissolve = true
-          if card.area~=G.betmma_abilities and G.betmma_abilities then
-              area:remove_card(card)
-              G.betmma_abilities:emplace(card)
-          end
-          nc=false
-      end
         card.T.x = G.hand.T.x + G.hand.T.w/2 - card.T.w/2
         card.T.y = G.hand.T.y + G.hand.T.h/2 - card.T.h/2 - 0.5
         discover_card(card.config.center)
@@ -2335,13 +2315,6 @@ end
                   if area == G.consumeables then
                     G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
                     G.booster_pack.alignment.offset.py = nil
-                  elseif card.ability.set=='Ability' then -- betmma_abilities
-                      G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
-                      G.booster_pack.alignment.offset.py = nil
-                  elseif card.ability.set=='Spell' and G.TEMP_FLAG_TO_LET_BELOW_PATCH_READ then -- betmma_spells
-                      G.TEMP_FLAG_TO_LET_BELOW_PATCH_READ=nil
-                      G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
-                      G.booster_pack.alignment.offset.py = nil
                   elseif G.GAME.pack_choices and G.GAME.pack_choices > 1 then
                     if G.booster_pack.alignment.offset.py then 
                       G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
@@ -2500,19 +2473,7 @@ G.FUNCS.buy_from_shop = function(e)
             table.insert(G.playing_cards, c1)
           elseif e.config.id ~= 'buy_and_use' then
             if c1.ability.consumeable then
-                  if not (#G.consumeables.cards < G.consumeables.config.card_limit + ((c1.edition and c1.edition.negative) and 1 or 0)) and c1.betmma_forbidden_area_bought then
-                      G.jokers:emplace(c1)
-                  else
-                          if c1.ability.set=='Ability' and G.betmma_abilities then -- betmma_abilities
-                              G.betmma_abilities:emplace(c1)
-                          else
-                              if c1.ability.set=='Spell' and G.betmma_spells then -- betmma_spells
-                                  G.betmma_spells:emplace(c1)
-                              else
-                                  G.consumeables:emplace(c1)
-                              end
-                          end
-                  end
+              G.consumeables:emplace(c1)
             else
               G.jokers:emplace(c1)
             end
@@ -3016,20 +2977,8 @@ G.FUNCS.cash_out = function(e)
                 G.round_eval = nil
               end
               G.GAME.current_round.jokers_purchased = 0
-              if used_voucher and used_voucher('garbage_bag') then
-                  G.GAME.betmma_discards_left_ref=G.GAME.current_round.discards_left or 0
-              end
-              if used_voucher and used_voucher('handbag') then
-                  G.GAME.betmma_hands_left_ref=G.GAME.current_round.hands_left or 0
-              end
               G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
               G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
-              if used_voucher and used_voucher('garbage_bag') then
-                  G.GAME.current_round.discards_left = G.GAME.current_round.discards_left + G.GAME.betmma_discards_left_ref
-              end
-              if used_voucher and used_voucher('handbag') then
-                  G.GAME.current_round.hands_left = G.GAME.current_round.hands_left + G.GAME.betmma_hands_left_ref
-              end
               G.STATE = G.STATES.SHOP
               G.GAME.shop_free = nil
               G.GAME.shop_d6ed = nil
