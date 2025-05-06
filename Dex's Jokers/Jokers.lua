@@ -35,7 +35,8 @@ SMODS.Joker {
                 xmult = card.ability.extra.xmult
             }
         end
-        card.ability.extra.xmult = 2 + #SMODS.find_card('j_dexjok_secondBrother') +
+        card.ability.extra.xmult = 1 + #SMODS.find_card('j_dexjok_firstBrother') +
+                                       #SMODS.find_card('j_dexjok_secondBrother') +
                                        #SMODS.find_card('j_dexjok_thirdBrother')
     end
 }
@@ -76,8 +77,8 @@ SMODS.Joker {
     },
     atlas = "dexsJokers",
     pos = {
-        x = 3,
-        y = 0
+        x = 0,
+        y = 1
     },
     cost = 3,
     discovered = true,
@@ -92,23 +93,34 @@ SMODS.Joker {
         }
     end,
     calculate = function(self, card, context)
-        if context.setting_blind then
-            SMODS.add_card({
-                set = "default",
-                area = G.deck,
-                legendary = false,
-                skip_materialize = true,
-                soulable = false,
-                enhancement = "m_dexjok_fish"
-            })
-        end
-        -- card.ability.extra.mult = 17
-        if context.joker_main then
-            return {
-                mult = card.ability.extra.mult
-            }
+        if context.setting_blind and not (context.blueprint_card or self).getting_sliced then
+            local _card = create_playing_card({
+                front = pseudorandom_element(G.P_CARDS, pseudoseed('fish_school')),
+                center = G.P_CENTERS.c_base
+            }, G.playing_cards, true, nil, {G.C.SECONDARY_SET.Enhanced}, true)
+            _card:set_enhancement("m_dexjok_fish")
         end
     end
+}
+SMODS.Joker {
+    key = "BOGO",
+    loc_txt = {
+        name = "BOGO the Clown",
+        text = {"Using a consumable from a booster pack gives you", "a copy in your consumable slots"}
+    },
+    rarity = 1,
+    discovered = true,
+    config = {
+        extra = {
+            bogo = true
+        }
+    },
+    blueprint_compat = true,
+    atlas = "dexsJokers",
+    pos = {
+        x = 2,
+        y = 1
+    }
 }
 SMODS.Joker {
     key = "Loki",
@@ -128,14 +140,16 @@ SMODS.Joker {
     blueprint_compat = false,
     atlas = "dexsJokers",
     pos = {
-        x = 0,
-        y = 1
+        x = 3,
+        y = 0
     },
     soul_pos = {
-        x = 1,
+        x = 3,
         y = 1
     },
     calculate = function(self, card, context)
+        -- if context.cardarea == G.play and context.main_scoring
+        -- will be useful for when Loki is a playing card instead of a joker
         G.E_MANAGER:add_event(Event({
             func = function(self)
                 if context.card_added then
@@ -149,25 +163,56 @@ SMODS.Joker {
                 xmult = card.ability.extra.xmult
             }
         end
-    end,
-    loc_vars = function(self, info_queue, card)
-
-        info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
+    end
+}
+SMODS.Joker {
+    key = "Dexterity",
+    loc_txt = {
+        name = "Dexterity",
+        text = {"+X0.2 Mult per unique hand played.", "Keeps track of the past three hand types",
+                "Last played hands are"}
+    },
+    rarity = 4,
+    cost = 10,
+    discovered = true,
+    config = {
+        extra = {
+            mult = 2
+        }
+    },
+    blueprint_compat = false,
+    atlas = "dexsJokers",
+    pos = {
+        x = 4,
+        y = 0
+    },
+    soul_pos = {
+        x = 4,
+        y = 1
+    },
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult = card.ability.extra.mult
+            }
+        end
     end
 }
 
 SMODS.Enhancement {
     key = "fish",
     loc_txt = {
-        name = "fish.",
+        name = "Fish",
         text = {"{C:blue}+0{} chips", "no rank or suit"}
     },
     no_rank = true,
     no_suit = true,
+    replace_base_card = true,
+    always_scores = true,
     chips = 0,
     atlas = "dexsJokers",
     pos = {
-        x = 4,
-        y = 0
+        x = 1,
+        y = 1
     }
 }
