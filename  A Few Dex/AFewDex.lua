@@ -20,7 +20,6 @@ SMODS.Back {
         G.E_MANAGER:add_event(Event({
             func = function(self)
                 for _, _card in pairs(G.playing_cards) do
-                    sendDebugMessage(_card.base.id)
                     _card:set_ability('m_mult')
                 end
                 return true
