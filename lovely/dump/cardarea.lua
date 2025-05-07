@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'cdd9e89d1533b1bf1a37702011981b84779de0c008ea531fc48249b0906557b3'
+LOVELY_INTEGRITY = '335ea30cb9a2443f66ae9a186ad3a6ed807b7afdc76e3033c75fff3c75e8016b'
 
 --Class
 CardArea = Moveable:extend()
@@ -255,7 +255,7 @@ function CardArea:update(dt)
         if G.GAME.modifiers.minus_hand_size_per_X_dollar then
             self.config.last_poll_size = self.config.last_poll_size or 0
             if math.floor(G.GAME.dollars/G.GAME.modifiers.minus_hand_size_per_X_dollar) ~= self.config.last_poll_size then
-                 self:change_size(self.config.last_poll_size - math.floor(G.GAME.dollars/G.GAME.modifiers.minus_hand_size_per_X_dollar))
+                 self:change_size(to_big(self.config.last_poll_size - math.floor(G.GAME.dollars/G.GAME.modifiers.minus_hand_size_per_X_dollar)):to_number())
                  self.config.last_poll_size = math.floor(G.GAME.dollars/G.GAME.modifiers.minus_hand_size_per_X_dollar)
             end
         end

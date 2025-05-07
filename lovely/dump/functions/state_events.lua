@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '9d1216392ff54cdea914fff600f27dbb734b88a8672149eca4950d17f2d5411c'
+LOVELY_INTEGRITY = 'd48b759b06aa0303e5e148da4a2511d7d34f606c4edf40ff9acb003efeec6fab'
 
 function win_game()
     if (not G.GAME.seeded and not G.GAME.challenge) or SMODS.config.seeded_unlocks then
@@ -96,7 +96,7 @@ function end_round()
         local game_won = false
         G.RESET_BLIND_STATES = true
         G.RESET_JIGGLES = true
-            if G.GAME.chips - G.GAME.blind.chips >= 0 then
+            if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then
                 game_over = false
             end
             -- context.end_of_round calculations
@@ -284,6 +284,7 @@ function new_round()
                     G.STATE = G.STATES.DRAW_TO_HAND
                     G.deck:shuffle('nr'..G.GAME.round_resets.ante)
                     G.deck:hard_set_T()
+if G.SCORING_COROUTINE then return false end 
                     G.STATE_COMPLETE = false
                     return true
                 end
@@ -409,6 +410,7 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
             G.E_MANAGER:add_event(Event({
                 trigger = 'immediate',
                 func = function()
+if G.SCORING_COROUTINE then return false end 
                     G.STATE_COMPLETE = false
                     return true
                 end
@@ -477,7 +479,7 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'immediate',
                     func = function()
-                        G.FUNCS.evaluate_play()
+                        G.FUNCS.evaluate_play(e)
                         return true
                     end
                 }))
@@ -486,6 +488,7 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                     trigger = 'after',
                     delay = 0.1,
                     func = function()
+                        if G.SCORING_COROUTINE then return false end 
                         check_for_unlock({type = 'play_all_hearts'})
                         G.FUNCS.draw_from_play_to_discard()
                         G.GAME.hands_played = G.GAME.hands_played + 1
@@ -496,6 +499,7 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'immediate',
                     func = function()
+if G.SCORING_COROUTINE then return false end 
                         G.STATE_COMPLETE = false
                         return true
                     end
@@ -536,7 +540,7 @@ G.FUNCS.get_poker_hand_info = function(_cards)
     return text, loc_disp_text, poker_hands, scoring_hand, disp_text
 end
   
-G.FUNCS.evaluate_play = function(e)
+function evaluate_play_intro()
     local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
     
     G.GAME.hands[text].played = G.GAME.hands[text].played + 1
@@ -576,7 +580,9 @@ G.FUNCS.evaluate_play = function(e)
     update_hand_text({sound = G.GAME.current_round.current_hand.handname ~= disp_text and 'button' or nil, volume = 0.4, immediate = true, nopulse = nil,
                 delay = G.GAME.current_round.current_hand.handname ~= disp_text and 0.4 or 0}, {handname=disp_text, level=G.GAME.hands[text].level, mult = G.GAME.hands[text].mult, chips = G.GAME.hands[text].chips})
 
-    if not G.GAME.blind:debuff_hand(G.play.cards, poker_hands, text) then
+    return text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta
+    end
+    function evaluate_play_main(text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta)
         mult = mod_mult(G.GAME.hands[text].mult)
         hand_chips = mod_chips(G.GAME.hands[text].chips)
 
@@ -730,8 +736,10 @@ G.FUNCS.evaluate_play = function(e)
                 end
               }))
         end
-    else
-        mult = mod_mult(0)
+    return text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta
+    end
+    function evaluate_play_debuff(text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta)
+    	mult = mod_mult(0)
         hand_chips = mod_chips(0)
         G.E_MANAGER:add_event(Event({
             trigger = 'immediate',
@@ -752,16 +760,18 @@ G.FUNCS.evaluate_play = function(e)
         SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
         
         -- TARGET: effects after hand debuffed by blind
+    return text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta
     end
+    function evaluate_play_final_scoring(text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta)
     G.E_MANAGER:add_event(Event({
-        trigger = 'after',delay = 0.4,
+    	trigger = 'after',delay = 0.4,
         func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
       }))
       check_and_set_high_score('hand', hand_chips*mult)
 
       check_for_unlock({type = 'chip_score', chips = math.floor(hand_chips*mult)})
    
-    if hand_chips*mult > 0 then 
+    if to_big(hand_chips)*mult > to_big(0) then
         delay(0.8)
         G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
@@ -788,9 +798,12 @@ G.FUNCS.evaluate_play = function(e)
     }))
     G.E_MANAGER:add_event(Event({
       trigger = 'immediate',
-      func = (function() G.GAME.current_round.current_hand.handname = '';return true end)
-    }))
-    delay(0.3)
+      	func = (function() G.GAME.current_round.current_hand.handname = '';return true end)
+      }))
+      delay(0.3)
+      return text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta
+      end
+      function evaluate_play_after(text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta)
 
     -- context.after calculations
     SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
@@ -860,7 +873,7 @@ G.FUNCS.evaluate_round = function()
     local pitch = 0.95
     local dollars = 0
 
-    if G.GAME.chips - G.GAME.blind.chips >= 0 then
+    if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then
         add_round_eval_row({dollars = G.GAME.blind.dollars, name='blind1', pitch = pitch})
         pitch = pitch + 0.06
         dollars = dollars + G.GAME.blind.dollars
@@ -918,7 +931,7 @@ G.FUNCS.evaluate_round = function()
             dollars = dollars + ret.dollars
         end
     end
-    if G.GAME.dollars >= 5 and not G.GAME.modifiers.no_interest then
+    if to_big(G.GAME.dollars) >= to_big(5) and not G.GAME.modifiers.no_interest then
         add_round_eval_row({bonus = true, name='interest', pitch = pitch, dollars = G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/5)})
         pitch = pitch + 0.06
         if (not G.GAME.seeded and not G.GAME.challenge) or SMODS.config.seeded_unlocks then
@@ -955,6 +968,7 @@ G.FUNCS.evaluate_round = function()
         }))
     end
     add_round_eval_row({name = 'bottom', dollars = dollars})
+    Talisman.dollars = dollars
 end
 
 G.FUNCS.tutorial_controller = function()

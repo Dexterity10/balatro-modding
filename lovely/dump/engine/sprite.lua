@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'f8f07d63bcd92886aea85046430bbb88e6f1f9642ef91181b8ce642f99ad6358'
+LOVELY_INTEGRITY = '611b35175c19e4dc7773ee3990f597b38223993c2f823c4f50b5b114df08c3c1'
 
 --Class
 Sprite = Moveable:extend()
@@ -84,7 +84,15 @@ function Sprite:draw_shader(_shader, _shadow_height, _send, _no_tilt, other_obj,
     if custom_shader then 
         if _send then 
             for k, v in ipairs(_send) do
-                G.SHADERS[_shader]:send(v.name, v.val or (v.func and v.func()) or v.ref_table[v.ref_value])
+                local val = v.val or (v.func and v.func()) or v.ref_table[v.ref_value]
+                if type(val) == "table" and is_number(val) then
+                	if val > to_big(1e300) then
+                		val = 1e300
+                	else
+                		val = val:tonumber()
+                	end
+                end
+                G.SHADERS[_shader]:send(v.name, val)
             end
         end
     elseif _shader == 'vortex' then 

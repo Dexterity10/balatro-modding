@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '5b5527931f57a67363ae0f87dbb87ecf3ac02fad07017d6a0938765396caaf73'
+LOVELY_INTEGRITY = '58d999b822e17697b7733c9311bb872d4e5a7f30039611099050e7c456c82449'
 
 --class
 Blind = Moveable:extend()
@@ -415,7 +415,7 @@ function Blind:disable()
     G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
         func = function()
-        if self.boss and G.GAME.chips - G.GAME.blind.chips >= 0 then
+        if self.boss and to_big(G.GAME.chips) - G.GAME.blind.chips >= to_big(0) then
             G.STATE = G.STATES.NEW_ROUND
             G.STATE_COMPLETE = false
         end
@@ -573,7 +573,7 @@ function Blind:debuff_hand(cards, hand, handname, check)
     end
     if self.name == 'The Arm' then 
         self.triggered = false
-        if G.GAME.hands[handname].level > 1 then
+        if to_big(G.GAME.hands[handname].level) > to_big(1) then
             self.triggered = true
             if not check then
                 level_up_hand(self.children.animatedSprite, handname, nil, -1)
