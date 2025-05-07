@@ -173,16 +173,16 @@ SMODS.Joker {
     key = "Dexterity",
     loc_txt = {
         name = "Dexterity",
-        text = {"Gain {C:white,X:mult}X#1#{} Mult per unique hand played in the last three hands.",
+        text = {"Gain {C:white,X:mult}X#1#{} Mult if poker hand is not one of the previous 3 poker hands.",
                 "Currently {C:white,X:mult}X#2#{}", "Last played hands are", "#3#, #4#, #5#"}
     },
     rarity = 4,
     cost = 10,
     discovered = true,
     loc_vars = function(self, info_queue, card)
+        local lp = card.ability.extra.lastPlayed
         return {
-            vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult, card.ability.extra.lastPlayed[1],
-                    card.ability.extra.lastPlayed[2], card.ability.extra.lastPlayed[3]}
+            vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult, lp[#lp - 2], lp[#lp - 1], lp[#lp]}
         }
     end,
     config = {
@@ -217,10 +217,10 @@ SMODS.Joker {
                 end
             end
             -- end check for if Dexterity should add a value/reset xmult
-            print(lastPlayed)
             table.insert(lastPlayed, scored) -- add latest hand played
-            table.remove(lastPlayed, 1) -- remove the 3rd most recent played
-            print(lastPlayed)
+            if #lastPlayed > 3 then
+                table.remove(lastPlayed, 1) -- remove the 3rd most recent played
+            end
         end
         if context.joker_main then
             return {
