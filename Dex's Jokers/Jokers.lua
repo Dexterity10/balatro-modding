@@ -10,20 +10,22 @@ SMODS.Joker {
     key = "firstBrother",
     loc_txt = {
         name = "El Primero Hermano",
-        text = {"The oldest.", "{C:red}X1{} mult for each Brother Joker you have", "(Currently {C:red}X#1#{})"}
+        text = {"The oldest.", "{C:white,X:mult}X1{} mult for each Brother Joker you have",
+                "(Currently {C:white,X:mult}#1#{})"}
     },
     atlas = "dexsJokers",
     pos = { -- 0,0 placeholder
         x = 0,
         y = 0
     },
-    cost = 1,
+    cost = 2,
     discovered = true,
     config = {
         extra = {
-            xmult = 2
+            xmult = 1
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
         return {
             vars = {card.ability.extra.xmult}
@@ -108,7 +110,7 @@ SMODS.Joker {
         name = "BOGO the Clown",
         text = {"Using a consumable from a booster pack gives you", "a copy in your consumable slots"}
     },
-    rarity = 1,
+    rarity = 3,
     discovered = true,
     config = {
         extra = {
@@ -120,7 +122,21 @@ SMODS.Joker {
     pos = {
         x = 2,
         y = 1
-    }
+    },
+    calculate = function(self, card, context)
+        if context.using_consumeable and G.booster_pack and not G.booster_pack.REMOVED and SMODS.OPENED_BOOSTER and
+            G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
+            G.E_MANAGER:add_event(Event({
+                func = function(self)
+                    SMODS.add_card({
+                        key = context.consumeable.config.center.key,
+                        edition = "e_negative"
+                    })
+                    return true
+                end
+            }))
+        end
+    end
 }
 SMODS.Joker {
     key = "Loki",
@@ -132,11 +148,6 @@ SMODS.Joker {
     rarity = 4,
     cost = 10,
     discovered = true,
-    config = {
-        extra = {
-            xmult = 100
-        }
-    },
     blueprint_compat = false,
     atlas = "dexsJokers",
     pos = {
@@ -148,39 +159,40 @@ SMODS.Joker {
         y = 1
     },
     calculate = function(self, card, context)
-        -- if context.cardarea == G.play and context.main_scoring
-        -- will be useful for when Loki is a playing card instead of a joker
-        G.E_MANAGER:add_event(Event({
-            func = function(self)
-                if context.card_added then
-                    card:set_edition('e_negative')
-                end
-                return true
-            end
-        }))
         if context.joker_main then
             return {
-                xmult = card.ability.extra.xmult
+                emult = 2
             }
         end
+    end,
+    set_ability = function(self, card, intial, delay_sprites)
+        card:set_edition('e_negative')
     end
 }
 SMODS.Joker {
     key = "Dexterity",
     loc_txt = {
         name = "Dexterity",
-        text = {"+X0.2 Mult per unique hand played.", "Keeps track of the past three hand types",
-                "Last played hands are"}
+        text = {"Gain {C:white,X:mult}X#1#{} Mult per unique hand played in the last three hands.",
+                "Currently {C:white,X:mult}X#2#{}", "Last played hands are", "#3#, #4#, #5#"}
     },
     rarity = 4,
     cost = 10,
     discovered = true,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult, card.ability.extra.lastPlayed[1],
+                    card.ability.extra.lastPlayed[2], card.ability.extra.lastPlayed[3]}
+        }
+    end,
     config = {
         extra = {
-            mult = 2
+            xmult_gain = 0.2,
+            xmult = 1,
+            lastPlayed = {}
         }
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     atlas = "dexsJokers",
     pos = {
         x = 4,
@@ -191,9 +203,29 @@ SMODS.Joker {
         y = 1
     },
     calculate = function(self, card, context)
+
+        local lastPlayed = card.ability.extra.lastPlayed
+        local scored = context.scoring_name
+        if context.before and context.main_eval then
+            lastPlayed[scored] = lastPlayed[scored] or 0
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+            for key, value in pairs(lastPlayed) do
+                if lastPlayed[key] == scored then
+                    -- reset
+                    card.ability.extra.xmult = 1
+                    break
+                end
+            end
+            -- end check for if Dexterity should add a value/reset xmult
+            print(lastPlayed)
+            table.insert(lastPlayed, scored) -- add latest hand played
+            table.remove(lastPlayed, 1) -- remove the 3rd most recent played
+            print(lastPlayed)
+        end
         if context.joker_main then
             return {
-                mult = card.ability.extra.mult
+                xmult = card.ability.extra.xmult,
+                lastPlayed = {}
             }
         end
     end
