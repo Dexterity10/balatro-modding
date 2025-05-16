@@ -1,0 +1,20 @@
+{
+    "id": "PokerDex",
+    "name": "Pokerdex",
+    "author": [
+        "dexterity0"
+    ],
+    "description": "A handful of content with no intent on balancing any of it",
+    "prefix": "pokerdex",
+    "main_file": "main.lua",
+    "priority": 0,
+    "badge_colour": "0f66af",
+    "badge_text_colour": "96e696",
+    "display_name": "PokerDex",
+    "version": "0.1.0",
+    "dependencies": [
+        "Steamodded (>=1.*)",
+        "Lovely (>=0.6)"
+    ],
+    "dump_loc": false
+}
