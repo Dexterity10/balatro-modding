@@ -11,7 +11,7 @@ SMODS.Joker {
     loc_txt = {
         name = "El Primero Hermano",
         text = {"The oldest.", "{C:white,X:mult}X1{} mult for each Brother Joker you have",
-                "(Currently {C:white,X:mult}#1#{})"}
+                "(Currently {C:white,X:mult}X#1#{})"}
     },
     atlas = "dexsJokers",
     pos = { -- 0,0 placeholder
@@ -70,7 +70,6 @@ SMODS.Joker {
     cost = 1,
     discovered = true
 }
-
 SMODS.Joker {
     key = "schoolOfFish",
     loc_txt = {
@@ -228,6 +227,37 @@ SMODS.Joker {
                 lastPlayed = {}
             }
         end
+    end
+}
+SMODS.Joker {
+    key = "Bag",
+    loc_txt = {
+        name = "Bag",
+        text = {"+#1# Joker slots"}
+    },
+    rarity = 2,
+    discovered = true,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.slots}
+        }
+    end,
+    config = {
+        extra = {
+            slots = 2
+        }
+    },
+    blueprint_compat = true,
+    atlas = "dexsJokers",
+    pos = {
+        x = 4,
+        y = 0
+    },
+    add_to_deck = function(self, card, from_debuff)
+        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit + to_big(card.ability.extra.slots))
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit - to_big(card.ability.extra.slots))
     end
 }
 
