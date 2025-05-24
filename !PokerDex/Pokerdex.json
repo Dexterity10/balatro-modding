@@ -6,7 +6,7 @@
     ],
     "description": "A handful of content with no intent on balancing any of it",
     "prefix": "pokerdex",
-    "main_file": "main.lua",
+    "main_file": "pokerdex.lua",
     "priority": 0,
     "badge_colour": "0f66af",
     "badge_text_colour": "96e696",

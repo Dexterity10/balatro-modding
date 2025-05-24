@@ -14,9 +14,9 @@ SMODS.Joker {
                 "(Currently {C:white,X:mult}X#1#{})"}
     },
     atlas = "dexsJokers",
-    pos = { -- 0,0 placeholder
+    pos = {
         x = 0,
-        y = 0
+        y = 1
     },
     cost = 2,
     discovered = true,
@@ -49,9 +49,9 @@ SMODS.Joker {
         text = {"this is a description of all time.", "second line"}
     },
     atlas = "dexsJokers",
-    pos = { -- 0,0 placeholder
+    pos = {
         x = 1,
-        y = 0
+        y = 1
     },
     cost = 1,
     discovered = true
@@ -63,9 +63,9 @@ SMODS.Joker {
         text = {"this is a description of all time.", "second line"}
     },
     atlas = "dexsJokers",
-    pos = { -- 0,0 placeholder
+    pos = {
         x = 2,
-        y = 0
+        y = 1
     },
     cost = 1,
     discovered = true
@@ -78,8 +78,8 @@ SMODS.Joker {
     },
     atlas = "dexsJokers",
     pos = {
-        x = 0,
-        y = 1
+        x = 1,
+        y = 0
     },
     cost = 3,
     discovered = true,
@@ -119,8 +119,8 @@ SMODS.Joker {
     blueprint_compat = true,
     atlas = "dexsJokers",
     pos = {
-        x = 2,
-        y = 1
+        x = 4,
+        y = 0
     },
     calculate = function(self, card, context)
         if context.using_consumeable and G.booster_pack and not G.booster_pack.REMOVED and SMODS.OPENED_BOOSTER and
@@ -151,11 +151,11 @@ SMODS.Joker {
     atlas = "dexsJokers",
     pos = {
         x = 3,
-        y = 0
+        y = 1
     },
     soul_pos = {
         x = 3,
-        y = 1
+        y = 2
     },
     calculate = function(self, card, context)
         if context.joker_main then
@@ -195,11 +195,11 @@ SMODS.Joker {
     atlas = "dexsJokers",
     pos = {
         x = 4,
-        y = 0
+        y = 1
     },
     soul_pos = {
         x = 4,
-        y = 1
+        y = 2
     },
     calculate = function(self, card, context)
 
@@ -233,31 +233,120 @@ SMODS.Joker {
     key = "Bag",
     loc_txt = {
         name = "Bag",
-        text = {"+#1# Joker slots"}
+        text = {"{C:green}#1# in #2#{} chance for", "+#3# Joker slot every Ante"}
     },
     rarity = 2,
     discovered = true,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = {card.ability.extra.slots}
+            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.gain_slots}
         }
     end,
     config = {
         extra = {
-            slots = 2
+            gain_slots = 1,
+            odds = 8
         }
     },
     blueprint_compat = true,
     atlas = "dexsJokers",
     pos = {
-        x = 4,
-        y = 0
+        x = 0,
+        y = 2
     },
     add_to_deck = function(self, card, from_debuff)
-        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit + to_big(card.ability.extra.slots))
+        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit + to_big(card.ability.extra.gain_slots))
     end,
-    remove_from_deck = function(self, card, from_debuff)
-        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit - to_big(card.ability.extra.slots))
+    calculate = function(self, card, context)
+        if context.end_of_round and context.main_eval and G.GAME.blind.boss then
+            if pseudorandom("bagjoker") < G.GAME.probabilities.normal / card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    -- copied from an example mod on smods... might be not correct coding for what I want lol
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit +
+                                                                        to_big(card.ability.extra.gain_slots))
+                        return true
+                    end
+
+                }))
+                return true
+            end
+            return {
+                message = "Bagged!"
+            }
+        end
+    end
+}
+SMODS.Joker {
+    key = "squire",
+    loc_txt = {
+        name = "Squire",
+        text = {"{C:red}+#1#{} Mult every hand played", "{C:red}#2#{}{C:green} in #3#{} chance to collapse and die"}
+    },
+    rarity = 2,
+    discovered = true,
+    config = {
+        extra = {
+            mult = 0,
+            mult_gain = 5,
+            odds = 200
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.odds}
+        }
+    end,
+    atlas = "dexsJokers",
+    pos = {
+        x = 1,
+        y = 2
+    },
+    calculate = function(self, card, context)
+        local cardmultgain = card.ability.extra.mult_gain
+        if context.before then
+            card.ability.extra.mult = card.ability.extra.mult + cardmultgain
+        end
+        if context.joker_main then
+            return {
+                mult = card.ability.extra.mult
+            }
+        end
+        if context.end_of_round and not context.repetition then
+            if pseudorandom('squire') < card.ability.extra.mult / card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            delay = 0.3,
+                            blockable = false,
+                            func = function()
+                                G.jokers:remove_card(card)
+                                card:remove()
+                                card = nil
+                                return true;
+                            end
+                        }))
+                        return true
+                    end
+                }))
+                return {
+                    message = 'Collapsed!'
+                }
+            else
+                return {
+                    message = 'Safe!'
+                }
+            end
+        end
     end
 }
 
