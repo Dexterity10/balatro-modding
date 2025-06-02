@@ -1,12 +1,12 @@
-## Current Content
-- Mouthwashing
+# Current Content
+## Mouthwashing
 	- adds a friends of jimbo-style texture based on the indie game mouthwashing
-- AFewDexs
+## AFewDexs
 	- Negative: All Jokers are negative
-	- Mult: All playing cards start as, or are given, the mult enhancement
-	- Glass: All playing cards start as, or are given, the glass enhancement
-	- Polychrome: All playing cards start as, or are given, the polychrome edition
-- PokerDex
+	- Mult: All playing cards are given the mult enhancement
+	- Glass: All playing cards are given the glass enhancement
+	- Polychrome: All playing cards are given the polychrome edition
+## PokerDex
 Adds 10 Jokers:
 
 | Name           | Description                                                                                |
@@ -22,3 +22,8 @@ Adds 10 Jokers:
 | Squire         | +5 mult per round; Mult in 200 chance to collapse and be destroyed                         |
 | Knight         | Shows up when Squire collapses. +3 Mult, X1 Mult; +X0.5 mult when a boss blind is defeated |
 |                |                                                                                            |
+
+# Content will be buggy
+Known bugs:
+- BOGO works for all consumables, even if they're not from the pack you're currently opening
+- Loki's effect is not fully implemented (Should be a playable card, rather than just +^1 Mult)
