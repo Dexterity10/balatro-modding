@@ -485,6 +485,49 @@ SMODS.Joker {
         end
     end
 }
+SMODS.Joker {
+    key = "anthill",
+    loc_txt = {
+        name = "Anthill",
+        text = {"{C:white,X:mult}X#1#{}", "+{C:white,X:mult}X#2#{} per card played",
+                "+{C:white,X:mult}X#2#{} per card scored"}
+    },
+    rarity = 3,
+    discovered = true,
+    config = {
+        extra = {
+            xmult = 0.5,
+            gain_played = 0.05,
+            gain_scored = 0.05
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.xmult, card.ability.extra.gain_played, card.ability.extra.gain_scored}
+        }
+    end,
+    atlas = "dexsJokers",
+    pos = {
+        x = 0,
+        y = 0
+    },
+    calculate = function(self, card, context)
+        if context.before then
+            card.ability.extra.xmult = card.ability.extra.xmult + #context.full_hand * card.ability.extra.gain_played
+            return {
+                message = "test"
+            }
+        end
+        if context.individual then
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.gain_scored
+        end
+        if context.joker_main then
+            return {
+                xmult = card.ability.extra.xmult
+            }
+        end
+    end
+}
 -- Replicanti. Do not uncomment
 -- SMODS.Joker {
 --     key = "replicanti",
