@@ -26,8 +26,8 @@ SMODS.Joker {
         }
     end,
     calculate = function(self, card, context)
-        local sumBrothers = #SMODS.find_card('j_pokerdex_firstBrother') + #SMODS.find_card('j_pokerdex_secondBrother') +
-                                #SMODS.find_card('j_pokerdex_thirdBrother')
+        local sumBrothers = #SMODS.find_card('j_dxd_firstBrother') + #SMODS.find_card('j_dxd_secondBrother') +
+                                #SMODS.find_card('j_dxd_thirdBrother')
         card.ability.extra.xmult = sumBrothers
         if context.joker_main then
             return {
@@ -36,8 +36,8 @@ SMODS.Joker {
         end
     end,
     set_ability = function(self, card, intial, delay_sprites)
-        if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_pokerdex_firstBrother') and
-            SMODS.find_card('j_pokerdex_secondBrother') and SMODS.find_card('j_pokerdex_thirdBrother') then
+        if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
+            SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
         end
     end
@@ -67,8 +67,8 @@ SMODS.Joker {
         }
     end,
     calculate = function(self, card, context)
-        local sumBrothers = #SMODS.find_card('j_pokerdex_firstBrother') + #SMODS.find_card('j_pokerdex_secondBrother') +
-                                #SMODS.find_card('j_pokerdex_thirdBrother')
+        local sumBrothers = #SMODS.find_card('j_dxd_firstBrother') + #SMODS.find_card('j_dxd_secondBrother') +
+                                #SMODS.find_card('j_dxd_thirdBrother')
         card.ability.extra.mult = sumBrothers * 3
         if context.joker_main then
             return {
@@ -78,8 +78,8 @@ SMODS.Joker {
 
     end,
     set_ability = function(self, card, intial, delay_sprites)
-        if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_pokerdex_firstBrother') and
-            SMODS.find_card('j_pokerdex_secondBrother') and SMODS.find_card('j_pokerdex_thirdBrother') then
+        if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
+            SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
         end
     end
@@ -121,8 +121,8 @@ SMODS.Joker {
         end
     end,
     set_ability = function(self, card, intial, delay_sprites)
-        if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_pokerdex_firstBrother') and
-            SMODS.find_card('j_pokerdex_secondBrother') and SMODS.find_card('j_pokerdex_thirdBrother') then
+        if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
+            SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
         end
     end
@@ -149,7 +149,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local toMult = 0
         for k, v in pairs(G.playing_cards or {}) do
-            if SMODS.has_enhancement(v, 'm_pokerdex_fish') then
+            if SMODS.has_enhancement(v, 'm_dxd_fish') then
                 toMult = toMult + card.ability.extra.mult_gain
             end
         end
@@ -161,7 +161,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.setting_blind then
             local fish_card = create_playing_card({
-                center = G.P_CENTERS.m_pokerdex_fish
+                center = G.P_CENTERS.m_dxd_fish
             }, G.discard, true, false, nil, true)
             fish_card.config.center:setChips(fish_card, pseudorandom("fish", 1, 10))
             G.E_MANAGER:add_event(Event({
@@ -191,7 +191,7 @@ SMODS.Joker {
         if context.joker_main then
             local toMult = 0
             for k, v in pairs(G.playing_cards or {}) do
-                if SMODS.has_enhancement(v, 'm_pokerdex_fish') then
+                if SMODS.has_enhancement(v, 'm_dxd_fish') then
                     toMult = toMult + 1
                 end
             end

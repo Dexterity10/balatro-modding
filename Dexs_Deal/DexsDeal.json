@@ -5,7 +5,7 @@
         "dexterity0"
     ],
     "description": "A handful of content with no intent on balancing any of it",
-    "prefix": "dd",
+    "prefix": "dxd",
     "main_file": "DexMain.lua",
     "priority": 0,
     "badge_colour": "0f66af",
