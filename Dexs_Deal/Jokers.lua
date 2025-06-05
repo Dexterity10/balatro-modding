@@ -88,7 +88,8 @@ SMODS.Joker {
     key = "thirdBrother",
     loc_txt = {
         name = "The Youngest",
-        text = {"Gain Brothers^2 {C:chips}Chips{}", "(Currently {C:chips}+#1#{})"}
+        text = {"Gain +#2# chips", "when a Joker procs", "Currently #1#"}
+        -- will be changed to be only on Brother joker, but for now, it must be all jokers.
     },
     atlas = "dexsJokers",
     pos = {
@@ -100,18 +101,19 @@ SMODS.Joker {
     discovered = true,
     config = {
         extra = {
-            chips = 1
+            chips = 30,
+            chips_gain = 30
         }
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = {card.ability.extra.chips}
+            vars = {card.ability.extra.chips, card.ability.extra.chips_gain}
         }
     end,
     calculate = function(self, card, context)
-        local sumBrothers = #SMODS.find_card('j_pokerdex_firstBrother') + #SMODS.find_card('j_pokerdex_secondBrother') +
-                                #SMODS.find_card('j_pokerdex_thirdBrother')
-        card.ability.extra.chips = sumBrothers ^ 2
+        if context.post_trigger then
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
+        end
         if context.joker_main then
             return {
                 chips = card.ability.extra.chips
