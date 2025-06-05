@@ -21,6 +21,7 @@ Adds 10 Jokers:
 | Knight         | Shows up when Squire collapses. +3 Mult, X1 Mult; +X0.5 mult when a boss blind is defeated |
 | Anthill        | X0.5 Mult; Gain XMult based on cards played and scored                                     |
 | Pot of Greed   | -1 Hand size; X2 Hand size                                                                 |
+
 Adds 4 Decks:
 
 | Name            | Description                                   |
