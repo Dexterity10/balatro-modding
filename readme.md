@@ -4,7 +4,7 @@
 
 - adds a friends of jimbo-style texture based on the indie game mouthwashing
 
-## PokerDex
+## Dex's Deal
 Adds 10 Jokers:
 
 | Name           | Description                                                                                |
