@@ -5,7 +5,7 @@ SMODS.Joker {
         name = "The Oldest",
         text = {"{C:white,X:mult}X1{} mult per Brother Joker you have", "(Currently {C:white,X:mult}X#1#{})"}
     },
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 0,
         y = 1
@@ -48,7 +48,7 @@ SMODS.Joker {
         name = "The Middle",
         text = {"Gain {C:mult}+3{} Mult per Brother joker", "(Currently {C:mult}+#1#{})"}
     },
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 1,
         y = 1
@@ -91,7 +91,7 @@ SMODS.Joker {
         text = {"Gain +#2# chips", "when a Joker procs", "Currently #1#"}
         -- will be changed to be only on Brother joker, but for now, it must be all jokers.
     },
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 2,
         y = 1
@@ -133,7 +133,7 @@ SMODS.Joker {
         name = "School of Fish",
         text = {"Adds 1 Fish to your deck", "{C:mult}+#1#{} mult per fish in your deck", "(Currently {C:mult}+#2#{})"}
     },
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 2,
         y = 0
@@ -216,7 +216,7 @@ SMODS.Joker {
         }
     },
     blueprint_compat = true,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 4,
         y = 0
@@ -247,7 +247,7 @@ SMODS.Joker {
     cost = 10,
     discovered = true,
     blueprint_compat = true,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 3,
         y = 1
@@ -300,7 +300,7 @@ SMODS.Joker {
         }
     },
     blueprint_compat = true,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 4,
         y = 1
@@ -357,7 +357,7 @@ SMODS.Joker {
         }
     },
     blueprint_compat = true,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 0,
         y = 2
@@ -407,7 +407,7 @@ SMODS.Joker {
             vars = {card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.odds}
         }
     end,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 1,
         y = 2
@@ -478,7 +478,7 @@ SMODS.Joker {
             vars = {card.ability.extra.mult, card.ability.extra.xmult, card.ability.extra.xmult_gain}
         }
     end,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 2,
         y = 2
@@ -518,7 +518,7 @@ SMODS.Joker {
             vars = {card.ability.extra.xmult, card.ability.extra.gain_played, card.ability.extra.gain_scored}
         }
     end,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 0,
         y = 0
@@ -561,7 +561,7 @@ SMODS.Joker {
             vars = {card.ability.extra.hand_gain, card.ability.extra.hand_xgain}
         }
     end,
-    atlas = "dexsJokers",
+    atlas = "Joker",
     pos = {
         x = 0,
         y = 0
@@ -598,7 +598,7 @@ SMODS.Joker {
 --             vars = {card.ability.extra.base_mult, card.ability.extra.mult_gain, card.ability.extra.mult_gain_gain}
 --         }
 --     end,
---     atlas = "dexsJokers",
+--     atlas = "Joker",
 --     pos = {
 --         x = 0,
 --         y = 0
