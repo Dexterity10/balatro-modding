@@ -6,7 +6,7 @@ SMODS.Back {
         y = 0
     },
     loc_txt = {
-        name = "mult Deck",
+        name = "Mult Deck",
         text = {"{C:MULT}+4{} mult", "Added cards also get changed"}
     },
     apply = function(self)
