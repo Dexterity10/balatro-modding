@@ -4,7 +4,7 @@
 
 - adds a friends of jimbo-style texture based on the indie game mouthwashing
 
-## Dex's Deal
+## PokerDex
 Adds 10 Jokers:
 
 | Name           | Description                                                                                |
@@ -19,6 +19,8 @@ Adds 10 Jokers:
 | Bag            | 1 in 8 chance for +1 Joker slot                                                            |
 | Squire         | +5 mult per round; Mult in 200 chance to collapse and be destroyed                         |
 | Knight         | Shows up when Squire collapses. +3 Mult, X1 Mult; +X0.5 mult when a boss blind is defeated |
+| Anthill        | X0.5 Mult; Gain XMult based on cards played and scored                                     |
+| Pot of Greed   | -1 Hand size; X2 Hand size                                                                 |
 Adds 4 Decks:
 
 | Name            | Description                                   |
