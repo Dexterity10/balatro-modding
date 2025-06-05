@@ -1,13 +1,6 @@
-SMODS.Atlas {
-    key = "fewdex",
-    px = 71,
-    py = 95,
-    path = "AFewDex_Spritesheet.png"
-}
-
 SMODS.Back {
     key = "multDeck",
-    atlas = "fewdex",
+    atlas = "Deck",
     pos = {
         x = 0,
         y = 0
@@ -36,7 +29,7 @@ SMODS.Back {
 }
 SMODS.Back {
     key = "polyDeck",
-    atlas = "fewdex",
+    atlas = "Deck",
     pos = {
         x = 1,
         y = 0
@@ -59,7 +52,7 @@ SMODS.Back {
 }
 SMODS.Back {
     key = "glassDeck",
-    atlas = "fewdex",
+    atlas = "Deck",
     pos = {
         x = 0,
         y = 1
@@ -89,7 +82,7 @@ SMODS.Back {
 }
 SMODS.Back {
     key = "NegativeDeck",
-    atlas = "fewdex",
+    atlas = "Deck",
     pos = {
         x = 1,
         y = 1

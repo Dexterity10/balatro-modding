@@ -1,16 +1,16 @@
 {
-    "id": "PokerDex",
-    "name": "Pokerdex",
+    "id": "DexsDeal",
+    "name": "Dex's Deal",
     "author": [
         "dexterity0"
     ],
     "description": "A handful of content with no intent on balancing any of it",
-    "prefix": "pokerdex",
-    "main_file": "pokerdex.lua",
+    "prefix": "dd",
+    "main_file": "DexMain.lua",
     "priority": 0,
     "badge_colour": "0f66af",
     "badge_text_colour": "96e696",
-    "display_name": "PokerDex",
+    "display_name": "Dex's Deal",
     "version": "0.1.0",
     "dependencies": [
         "Steamodded (>=1.*)",

@@ -238,13 +238,13 @@ SMODS.Joker {
     key = "Loki",
     loc_txt = {
         name = "Loki",
-        text = {"Selecting a blind moves Loki into your deck.", "Playing Loki gives {X:dark_edition,C:white}^2{} Mult.",
-                "Always {C:dark_edition}Negative{}."}
+        text = {"Selecting a blind moves Loki into your deck.",
+                "Playing Loki gives {X:dark_edition,C:white}+^1{} Mult.", "Always {C:dark_edition}Negative{}."}
     },
     rarity = 4,
     cost = 10,
     discovered = true,
-    blueprint_compat = false,
+    blueprint_compat = true,
     atlas = "dexsJokers",
     pos = {
         x = 3,
@@ -254,10 +254,19 @@ SMODS.Joker {
         x = 3,
         y = 2
     },
+    config = {
+        extra = {
+            emult = 0
+        }
+    },
     calculate = function(self, card, context)
+        card.ability.extra.emult = 0
         if context.joker_main then
+            card.ability.extra.emult = card.ability.extra.emult + 1
+        end
+        if context.final_scoring_step then
             return {
-                emult = 2
+                emult = card.ability.extra.emult
             }
         end
     end,
@@ -490,15 +499,16 @@ SMODS.Joker {
     loc_txt = {
         name = "Anthill",
         text = {"{C:white,X:mult}X#1#{}", "+{C:white,X:mult}X#2#{} per card played",
-                "+{C:white,X:mult}X#2#{} per card scored"}
+                "+{C:white,X:mult}X#3#{} per card scored"}
     },
     rarity = 3,
+    cost = 5,
     discovered = true,
     config = {
         extra = {
             xmult = 0.5,
-            gain_played = 0.05,
-            gain_scored = 0.05
+            gain_played = 0.01,
+            gain_scored = 0.02
         }
     },
     loc_vars = function(self, info_queue, card)
@@ -513,9 +523,10 @@ SMODS.Joker {
     },
     calculate = function(self, card, context)
         if context.before then
-            card.ability.extra.xmult = card.ability.extra.xmult + #context.full_hand * card.ability.extra.gain_played
+            local total = #context.full_hand * card.ability.extra.gain_played
+            card.ability.extra.xmult = card.ability.extra.xmult + total
             return {
-                message = "test"
+                message = "+X" .. total
             }
         end
         if context.individual then
@@ -528,6 +539,41 @@ SMODS.Joker {
         end
     end
 }
+SMODS.Joker {
+    key = "potofGreed",
+    loc_txt = {
+        name = "Pot of Greed",
+        text = {"#1# Hand size per round", "X#2# Hand size"}
+    },
+    rarity = 2,
+    cost = 5,
+    discovered = true,
+    config = {
+        extra = {
+            hand_gain = -1,
+            hand_xgain = 2
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.hand_gain, card.ability.extra.hand_xgain}
+        }
+    end,
+    atlas = "dexsJokers",
+    pos = {
+        x = 0,
+        y = 0
+    },
+    add_to_deck = function(self, card, from_debuff)
+        G.hand:change_size(card.ability.extra.h_gain)
+        G.hand:change_size(G.hand * (card.ability.extra.h_xgain - 1))
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.hand:change_size(-card.ability.extra.h_gain)
+        G.hand:change_size(-G.hand / (card.ability.extra.h_xgain))
+    end
+}
+
 -- Replicanti. Do not uncomment
 -- SMODS.Joker {
 --     key = "replicanti",
