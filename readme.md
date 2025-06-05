@@ -2,7 +2,7 @@
 
 ## Mouthwashing
 
-- adds a friends of jimbo-style texture based on the indie game mouthwashing
+- Adds a friends-of-jimbo-style texture based on the indie game mouthwashing
 
 ## Dex's Deal
 Adds 10 Jokers:
@@ -30,10 +30,6 @@ Adds 4 Decks:
 | Glass Deck      | All playing cards have the Glass enhancement  |
 | Negative Deck   | All Jokers are negative when bought           |
 
-# Content will be buggy
-
-Known bugs:
-
+# Known bugs:
 - BOGO works for all consumables, even if they're not from the pack you're currently opening
-
 - Loki's effect is not fully implemented (Should be a playable card, rather than just +^1 Mult)
