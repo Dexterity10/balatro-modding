@@ -1,5 +1,5 @@
 SMODS.Atlas {
-    key = "placeholder",
+    key = "Placeholder",
     px = 71,
     py = 95,
     path = "Placeholder.png"
@@ -8,7 +8,7 @@ SMODS.Atlas {
     key = "Joker",
     px = 71,
     py = 95,
-    path = 'Jokers.png' -- 3x2 grid; 0,0 is a placeholder
+    path = 'Jokers.png'
 }
 SMODS.Atlas {
     key = "Deck",
@@ -20,5 +20,5 @@ SMODS.Atlas {
 assert(SMODS.load_file("Decks.lua"))()
 assert(SMODS.load_file("Jokers.lua"))()
 assert(SMODS.load_file("Enhancements.lua"))()
-assert(SMODS.load_file("Consumables.lua"))()
+-- assert(SMODS.load_file("Consumables.lua"))()
 

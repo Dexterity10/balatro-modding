@@ -1,10 +1,6 @@
 SMODS.Joker {
 
     key = "firstBrother",
-    loc_txt = {
-        name = "The Oldest",
-        text = {"{C:white,X:mult}X1{} mult per Brother Joker you have", "(Currently {C:white,X:mult}X#1#{})"}
-    },
     atlas = "Joker",
     pos = {
         x = 0,
@@ -44,10 +40,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "secondBrother",
-    loc_txt = {
-        name = "The Middle",
-        text = {"Gain {C:mult}+3{} Mult per Brother joker", "(Currently {C:mult}+#1#{})"}
-    },
     atlas = "Joker",
     pos = {
         x = 1,
@@ -86,11 +78,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "thirdBrother",
-    loc_txt = {
-        name = "The Youngest",
-        text = {"Gain +#2# chips", "when a Joker procs", "Currently #1#"}
-        -- will be changed to be only on Brother joker, but for now, it must be all jokers.
-    },
     atlas = "Joker",
     pos = {
         x = 2,
@@ -129,10 +116,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "schoolOfFish",
-    loc_txt = {
-        name = "School of Fish",
-        text = {"Adds 1 Fish to your deck", "{C:mult}+#1#{} mult per fish in your deck", "(Currently {C:mult}+#2#{})"}
-    },
     atlas = "Joker",
     pos = {
         x = 2,
@@ -204,10 +187,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "BOGO",
-    loc_txt = {
-        name = "BOGO the Clown",
-        text = {"Using a consumable from a booster pack gives you", "a copy in your consumable slots"}
-    },
     rarity = 3,
     discovered = true,
     config = {
@@ -238,11 +217,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "Loki",
-    loc_txt = {
-        name = "Loki",
-        text = {"Selecting a blind moves Loki into your deck.",
-                "Playing Loki gives {X:dark_edition,C:white}+^1{} Mult.", "Always {C:dark_edition}Negative{}."}
-    },
     rarity = 4,
     cost = 10,
     discovered = true,
@@ -262,13 +236,16 @@ SMODS.Joker {
         }
     },
     calculate = function(self, card, context)
-        card.ability.extra.emult = 0
+        if context.before then
+            card.ability.extra.emult = 1
+        end
         if context.joker_main then
             card.ability.extra.emult = card.ability.extra.emult + 1
         end
         if context.final_scoring_step then
             return {
-                emult = card.ability.extra.emult
+                emult = card.ability.extra.emult,
+                message = "^" .. card.ability.extra.emult
             }
         end
     end,
@@ -278,11 +255,7 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "Dexterity",
-    loc_txt = {
-        name = "Dexterity",
-        text = {"Gain {C:white,X:mult}X#1#{} Mult if poker hand is not one of the previous 3 poker hands.",
-                "(Currently {C:white,X:mult}X#2#{})", "Last played hands are", "#3#, #4#, #5#"}
-    },
+
     rarity = 4,
     cost = 10,
     discovered = true,
@@ -332,17 +305,14 @@ SMODS.Joker {
         if context.joker_main then
             return {
                 xmult = card.ability.extra.xmult,
-                lastPlayed = {}
+                lastPlayed = {},
+                message = "X" .. card.ability.extra.xmult
             }
         end
     end
 }
 SMODS.Joker {
-    key = "Bag",
-    loc_txt = {
-        name = "Bag",
-        text = {"{C:green}#1# in #2#{} chance for", "+#3# Joker slot every Ante"}
-    },
+    key = "bag",
     rarity = 2,
     discovered = true,
     loc_vars = function(self, info_queue, card)
@@ -389,10 +359,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "squire",
-    loc_txt = {
-        name = "Squire",
-        text = {"{C:mult}+#1#{} Mult every hand played", "{C:mult}#2#{}{C:green} in #3#{} chance to collapse and die"}
-    },
     rarity = 2,
     discovered = true,
     config = {
@@ -459,11 +425,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "knight",
-    loc_txt = {
-        name = "Knight",
-        text = {"{C:mult}+#1#{} Mult", "{C:white,X:mult}X#2#{} Mult",
-                "+{C:white,X:mult}X#3#{} after defeating boss blind"}
-    },
     rarity = 2,
     discovered = true,
     config = {
@@ -498,11 +459,6 @@ SMODS.Joker {
 }
 SMODS.Joker {
     key = "anthill",
-    loc_txt = {
-        name = "Anthill",
-        text = {"{C:white,X:mult}X#1#{}", "+{C:white,X:mult}X#2#{} per card played",
-                "+{C:white,X:mult}X#3#{} per card scored"}
-    },
     rarity = 3,
     cost = 5,
     discovered = true,
@@ -518,11 +474,7 @@ SMODS.Joker {
             vars = {card.ability.extra.xmult, card.ability.extra.gain_played, card.ability.extra.gain_scored}
         }
     end,
-    atlas = "Joker",
-    pos = {
-        x = 0,
-        y = 0
-    },
+    atlas = "Placeholder",
     calculate = function(self, card, context)
         if context.before then
             local total = #context.full_hand * card.ability.extra.gain_played
@@ -542,11 +494,7 @@ SMODS.Joker {
     end
 }
 SMODS.Joker {
-    key = "potofGreed",
-    loc_txt = {
-        name = "Pot of Greed",
-        text = {"#1# Hand size per round", "X#2# Hand size"}
-    },
+    key = "potOfGreed",
     rarity = 2,
     cost = 5,
     discovered = true,
@@ -561,11 +509,7 @@ SMODS.Joker {
             vars = {card.ability.extra.hand_gain, card.ability.extra.hand_xgain}
         }
     end,
-    atlas = "Joker",
-    pos = {
-        x = 0,
-        y = 0
-    },
+    atlas = "Placeholder",
     add_to_deck = function(self, card, from_debuff)
         G.hand:change_size(card.ability.extra.h_gain)
         G.hand:change_size(G.hand * (card.ability.extra.h_xgain - 1))
@@ -573,6 +517,24 @@ SMODS.Joker {
     remove_from_deck = function(self, card, from_debuff)
         G.hand:change_size(-card.ability.extra.h_gain)
         G.hand:change_size(-G.hand / (card.ability.extra.h_xgain))
+    end
+}
+SMODS.Joker {
+    key = "kirby",
+    rarity = 4,
+    cost = 15,
+    config = {
+        extra = {
+            jokers_held = {},
+            total_held = 0,
+            odds = 2
+        }
+    },
+    loc_vars = function(self, infoqueue, card)
+        vars = {card.ability.extra.odds}
+    end,
+    calculate = function(self, card)
+
     end
 }
 
@@ -598,11 +560,7 @@ SMODS.Joker {
 --             vars = {card.ability.extra.base_mult, card.ability.extra.mult_gain, card.ability.extra.mult_gain_gain}
 --         }
 --     end,
---     atlas = "Joker",
---     pos = {
---         x = 0,
---         y = 0
---     },
+--     atlas = "Placeholder",
 --     calculate = function(self, card, context)
 --         if context.end_of_round then
 --             card.ability.extra.base_mult = card.ability.extra.base_mult + card.ability.extra.mult_gain
