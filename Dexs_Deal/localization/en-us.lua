@@ -31,7 +31,7 @@ return {
             j_dxd_Dexterity = {
                 name = "Dexterity",
                 text = {"Gain {C:white,X:mult}X#1#{} Mult if poker hand is not one of the previous 3 poker hands.",
-                        "(Currently {C:white,X:mult}X#2#{})", "Last played hands are", "#3#, #4#, #5#"}
+                        "(Currently {C:white,X:mult}X#2#{})", "#3#"}
             },
             j_dxd_bag = {
                 name = "Bag",
