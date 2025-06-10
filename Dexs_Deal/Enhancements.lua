@@ -1,4 +1,3 @@
-math.randomseed(1)
 SMODS.Enhancement {
     key = "fish",
     loc_txt = {
@@ -19,7 +18,7 @@ SMODS.Enhancement {
             vars = {card.ability.bonus}
         }
     end,
-    atlas = "dexsJokers",
+    atlas = "Placeholder",
     pos = {
         x = 0,
         y = 3
