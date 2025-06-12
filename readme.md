@@ -34,3 +34,6 @@ Adds 4 Decks:
 # Known bugs:
 - BOGO works for all consumables, even if they're not from the pack you're currently opening
 - Loki's effect is not fully implemented (Should be a playable card, rather than just +^1 Mult)
+
+# If you have a bug or feature
+please contact me on Discord: `dexterity0`

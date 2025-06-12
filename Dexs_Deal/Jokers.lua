@@ -140,6 +140,11 @@ SMODS.Joker {
         }
     end,
     calculate = function(self, card, context)
+        --[[ short explanation of what this should do:
+            a) add a fish-enhanced card to your deck
+            b)
+
+        ]]
         if context.setting_blind then
             local fish_card = create_playing_card({
                 center = G.P_CENTERS.m_dxd_fish
@@ -230,9 +235,16 @@ SMODS.Joker {
     },
     config = {
         extra = {
-            emult = 0
+            emult = 0,
+            joker_slot_gain = 1
         }
     },
+    add_to_deck = function(self, card, from_debuff)
+        G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.jokers.config.card_limit = G.jokers.config.card_limit - 1
+    end,
     calculate = function(self, card, context)
         if context.before then
             card.ability.extra.emult = 1
@@ -246,9 +258,6 @@ SMODS.Joker {
                 message = "^" .. card.ability.extra.emult
             }
         end
-    end,
-    set_ability = function(self, card, intial, delay_sprites)
-        card:set_edition('e_negative')
     end
 }
 SMODS.Joker {
@@ -292,7 +301,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local lastPlayed = card.ability.extra.lastPlayed
         local scored = context.scoring_name
-        if context.before and context.main_eval then
+        if context.before and context.main_eval and scored ~= nil then
             lastPlayed[scored] = lastPlayed[scored] or 0
             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
             for key, value in pairs(lastPlayed) do
@@ -536,8 +545,11 @@ SMODS.Joker {
             odds = 2
         }
     },
+    atlas = "placeholder",
     loc_vars = function(self, infoqueue, card)
-        vars = { card.ability.extra.odds }
+        return {
+            vars = { card.ability.extra.odds }
+        }
     end,
     calculate = function(self, card)
 
