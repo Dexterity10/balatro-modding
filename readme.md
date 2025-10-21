@@ -19,7 +19,7 @@ Adds 10 Jokers:
 | The Oldest     | +X1 Mult per Brother Joker                                                                 |
 | The Middle     | +3 Mult per Brother Joker                                                                  |
 | The Youngest   | +3\*Brothers^2 chips                                                                       |
-| School of Fish | Add a Fish card to your inventory. +1 mult per Fish <br> <h2>Currently bugged! Do not pick up! </h2>                              |
+| School of Fish | Add a Fish card to your inventory. +1 mult per Fish                                        |
 | BOGO the Clown | Create a copy of a consumable you used from a pack                                         |
 | Loki           | +^1 Mult                                                                                   |
 | Dexterity      | Gain X0.2 Mult if your played hand is not in the past three hand types played              |
@@ -41,7 +41,6 @@ Adds 4 Decks:
 # Known bugs:
 - BOGO works for all consumables, even if they're not from the pack you're currently opening
 - Loki's effect is not fully implemented (Should be a playable card, rather than just +^1 Mult)
-- School of Fish crashes your game when it should spawn a fish
 
 # If you have a bug or feature
 please contact me on Discord: `dexterity0`
