@@ -8,7 +8,7 @@
 	- Textures for the diamonds suit
 
 ## Dex's Deal
-Adds 10 Jokers:
+Adds 12 Jokers:
 
 | Name           | Description                                                                                |
 | -------------- | ------------------------------------------------------------------------------------------ |
