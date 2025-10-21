@@ -3,6 +3,13 @@
 ## Mouthwashing
 
 - Adds a friends-of-jimbo-style texture based on the indie game mouthwashing
+ - Textures for the hearts suit
+
+## Risk of Rain
+
+- Adds a friends of jimbo-style texture based on the game Risk of Rain 2
+ - Textures for the spades suit
+ - Textures for the diamonds suit
 
 ## Dex's Deal
 Adds 10 Jokers:

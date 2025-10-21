@@ -1,0 +1,21 @@
+{
+    "id": "ror_cards",
+    "name": "Risk of Rain 2 Collab",
+    "author": [
+        "dexterity0",
+        "seeker1683."
+    ],
+    "description": "A texture pack for the hearts suit. Art made by seeker1683. on discord. Coding by dexterity0",
+    "prefix": "ROR",
+    "main_file": "RORmain.lua",
+    "priority": 0,
+    "badge_colour": "FF230A",
+    "badge_text_colour": "ABC123",
+    "display_name": "Risk of Rain 2 Cards",
+    "version": "0.1.0",
+    "dependencies": [
+        "Steamodded (>=1.*)",
+        "Lovely (>=0.6)"
+    ],
+    "dump_loc": false
+}

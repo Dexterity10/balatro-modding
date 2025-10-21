@@ -1,0 +1,7 @@
+{
+    "Lua.diagnostics.globals": [
+        "prefix",
+        "atlas_key",
+        "atlas_path"
+    ]
+}

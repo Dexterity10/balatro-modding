@@ -12,11 +12,11 @@ SMODS.DeckSkin {
     key = "mouthwash",
     suit = "Hearts",
     loc_txt = "Mouthwashing",
-    palettes = {{
+    palettes = { {
         key = "lc",
-        ranks = {"Jack", "Queen", "King"},
+        ranks = { "Jack", "Queen", "King" },
         -- display_ranks = {"King", "Queen", "Jack"},
         atlas = prefix .. "_lc",
         pos_style = "collab"
-    }}
+    } }
 }

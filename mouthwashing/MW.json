@@ -7,7 +7,7 @@
     ],
     "description": "A texture pack for the hearts suit. Art made by hoagiesnadwich. Coding by dexterity0",
     "prefix": "MW",
-    "main_file": "mouthwashing.lua",
+    "main_file": "MWmain.lua",
     "priority": 0,
     "badge_colour": "FF230A",
     "badge_text_colour": "ABC123",
