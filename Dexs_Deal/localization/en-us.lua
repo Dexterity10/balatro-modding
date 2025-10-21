@@ -3,21 +3,21 @@ return {
         Joker = {
             j_dxd_firstBrother = {
                 name = "The Oldest",
-                text = { "{C:white,X:mult}X1{} mult per Brother Joker you have", "(Currently {C:white,X:mult}X#1#{})" }
+                text = { "{C:white,X:mult}X1{} mult per Brother Joker you have", "{C:inactive}(Currently {C:white,X:mult}X#1#{C:inactive})" }
             },
             j_dxd_secondBrother = {
                 name = "The Middle",
-                text = { "Gain {C:mult}+3{} Mult per Brother joker", "(Currently {C:mult}+#1#{})" }
+                text = { "Gain {C:mult}+3{} Mult per Brother joker", "{C:inactive}(Currently {C:mult}+#1#{C:inactive})" }
             },
             j_dxd_thirdBrother = {
                 name = "The Youngest",
-                text = { "Gain +#2# chips", "when a Joker procs", "Currently #1#" }
+                text = { "Gain +#2# chips", "when a Joker procs", "{C:inactive}(Currently {C:chips}+#1#{C:inactive})" }
                 -- will be changed to be only on Brother joker, but for now, it must be all jokers.
             },
             j_dxd_schoolOfFish = {
                 name = "School of Fish",
-                text = { "Adds 1 Fish to your deck", "{C:mult}+#1#{} mult per fish in your deck",
-                    "(Currently {C:mult}+#2#{})" }
+                text = { "Adds 1 Fish to your deck", "at the end of the shop", "Gain (2X fish)^2 mult",
+                    "(Currently {C:mult}+#1#{})" }
             },
             j_dxd_BOGO = {
                 name = "BOGO the Clown",

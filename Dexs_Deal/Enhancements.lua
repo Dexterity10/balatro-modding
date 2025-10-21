@@ -21,7 +21,7 @@ SMODS.Enhancement {
     atlas = "Placeholder",
     pos = {
         x = 0,
-        y = 3
+        y = 0
     },
     setChips = function(self, card, value)
         card.ability.bonus = value
@@ -31,4 +31,4 @@ SMODS.Enhancement {
 
         end
     end
-}
+} -- fish

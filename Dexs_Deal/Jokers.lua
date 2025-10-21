@@ -124,7 +124,7 @@ SMODS.Joker {
     config = {
         extra = {
             mult = 0,
-            mult_gain = 5
+            mult_gain = 2
         }
     },
     loc_vars = function(self, info_queue, card)
@@ -134,17 +134,12 @@ SMODS.Joker {
                 toMult = toMult + card.ability.extra.mult_gain
             end
         end
-        card.ability.extra.mult = toMult
+        card.ability.extra.mult = toMult ^ 2
         return {
-            vars = { card.ability.extra.mult_gain, card.ability.extra.mult }
+            vars = { card.ability.extra.mult }
         }
     end,
     calculate = function(self, card, context)
-        --[[ short explanation of what this should do:
-            a) add a fish-enhanced card to your deck
-            b)
-
-        ]]
         if context.setting_blind then
             local fish_card = create_playing_card({
                 center = G.P_CENTERS.m_dxd_fish
@@ -178,10 +173,10 @@ SMODS.Joker {
             local toMult = 0
             for k, v in pairs(G.playing_cards or {}) do
                 if SMODS.has_enhancement(v, 'm_dxd_fish') then
-                    toMult = toMult + 1
+                    toMult = toMult + card.ability.extra.mult_gain
                 end
             end
-            card.ability.extra.mult = toMult
+            card.ability.extra.mult = toMult ^ 2
             return {
                 mult = card.ability.extra.mult
             }
@@ -470,6 +465,9 @@ SMODS.Joker {
                 xmult = card.ability.extra.xmult
             }
         end
+    end,
+    in_pool = function(self, args)
+        return G.GAME.pool_flags.squire_extinct
     end
 }
 SMODS.Joker {
