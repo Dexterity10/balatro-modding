@@ -18,7 +18,7 @@ SMODS.Enhancement {
             vars = {card.ability.bonus}
         }
     end,
-    atlas = "Placeholder",
+    atlas = "Enhancement",
     pos = {
         x = 0,
         y = 0

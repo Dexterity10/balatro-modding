@@ -30,7 +30,7 @@ SMODS.Joker {
             }
         end
     end,
-    set_ability = function(self, card, intial, delay_sprites)
+    add_to_deck = function(self, card, from_debuff)
         if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
             SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
@@ -67,7 +67,7 @@ SMODS.Joker {
             }
         end
     end,
-    set_ability = function(self, card, intial, delay_sprites)
+    add_to_deck = function(self, card, intial, delay_sprites)
         if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
             SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
@@ -105,7 +105,7 @@ SMODS.Joker {
             }
         end
     end,
-    set_ability = function(self, card, intial, delay_sprites)
+    add_to_deck = function(self, card, intial, delay_sprites)
         if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
             SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
@@ -170,6 +170,8 @@ SMODS.Joker {
             }
         end
         if context.joker_main then
+            card:add_to_deck()
+            G.jokers:emplace(card)
             local toMult = 0
             for k, v in pairs(G.playing_cards or {}) do
                 if SMODS.has_enhancement(v, 'm_dxd_fish') then
@@ -551,6 +553,69 @@ SMODS.Joker {
     end,
     calculate = function(self, card)
 
+    end
+}
+SMODS.Joker {
+    key = "florble",
+    atlas = "Joker",
+    pos = {
+        x = 0,
+        y = 3
+    },
+    cost = 1,
+    rarity = 3,
+    discovered = true,
+    config = {
+        extra = {
+            chips = 1, -- chips
+            mult = 1,  -- mult
+            var3 = 1,
+            var4 = 1
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = { card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.var3, card.ability.extra.var4 }
+        }
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        local florble_list = {}
+        for _, v in pairs(G.jokers and G.jokers.cards or {}) do
+            if v.config.center.key == "j_dxd_florble" then
+                table.insert(florble_list, v)
+            end
+        end
+        local parentB = pseudorandom_element(florble_list, "florble") or card
+        card.ability.extra.chips = to_big(card.ability.extra.chips + parentB.ability.extra.chips) / 2 +
+            pseudorandom("florble")
+        card.ability.extra.mult = to_big(card.ability.extra.mult + parentB.ability.extra.mult) / 2 +
+            pseudorandom("florble")
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    if #G.jokers.cards < G.jokers.config.card_limit then
+                        local florble_list = {}
+                        for _, v in pairs(G.jokers and G.jokers.cards or {}) do
+                            if v.config.center.key == "j_dxd_florble" then
+                                table.insert(florble_list, v)
+                            end
+                        end
+                        local parentA = pseudorandom_element(florble_list, "florble") or card
+                        local copied = copy_card(parentA)
+                        copied:add_to_deck()
+                        G.jokers:emplace(copied)
+                    end
+                    return true
+                end
+            }))
+            return {
+                chips = card.ability.extra.chips,
+                mult = card.ability.extra.mult,
+            }
+        end
     end
 }
 

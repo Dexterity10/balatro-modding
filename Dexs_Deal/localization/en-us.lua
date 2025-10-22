@@ -59,12 +59,16 @@ return {
             j_dxd_Kirby = {
                 name = "Kirby",
                 text = { "Consume the Joker to the right", "Randomly select one Joker", "to proc during each hand",
-                    "{C:green}1{} in #1# chance to proc another Joker", "Keeps rerolling until failure" }
+                    "{C:green}1 in #1#{} chance to proc another Joker", "Keeps rerolling until failure" }
             },
             -- multiple description box example
             j_mod_multi_joker = {
                 name = 'Name',
                 text = { { 'First line of box 1', 'Second line of box 1' }, { 'First line of box 2', 'Second line of box 2' } }
+            },
+            j_dxd_florble = {
+                name = "Florble",
+                text = { "{C:chips}+#1# Chips{}, {C:mult}+#2# Mult{}", "Florbles reproduce after every hand", "with stats based on your other florbles" }
             }
         }
     }

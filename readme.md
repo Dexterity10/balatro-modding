@@ -10,20 +10,23 @@
 ## Dex's Deal
 Adds 12 Jokers:
 
-| Name           | Description                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------ |
-| The Oldest     | +X1 Mult per Brother Joker                                                                 |
-| The Middle     | +3 Mult per Brother Joker                                                                  |
-| the Youngest   | +(3\*Brothers)^2 Chips                                                                     |
-| School of Fish | Add a Fish card to your deck.<br>+(2\*Fish)^2 Mult                                         |
-| BOGO the Clown | Create a copy of a consumable you used from a pack                                         |
-| Loki           | Placeholder effect: +^1 Mult                                                               |
-| Dexterity      | Gain X0.2 Mult if your played hand is not in the past three hand types played              |
-| Bag            | 1 in 8 chance for +1 Joker slot                                                            |
-| Squire         | +5 mult per round; Mult in 200 chance to collapse and be destroyed                         |
-| Knight         | Shows up when Squire collapses. +3 Mult, X1 Mult; +X0.5 mult when a boss blind is defeated |
-| Anthill        | X0.5 Mult; Gain XMult based on cards played and scored                                     |
-| Pot of Greed   | -1 Hand size; X2 Hand size<br>Currently bugged. Do not pickup!                             |
+| Name           | Description                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| The Oldest     | +X1 Mult per Brother Joker                                                                  |
+| The Middle     | +3 Mult per Brother Joker                                                                   |
+| the Youngest   | +(3\*Brothers)^2 Chips                                                                      |
+| School of Fish | Add a Fish card to your deck.<br>+(2\*Fish)^2 Mult                                          |
+| BOGO the Clown | Create a copy of a consumable you used from a pack                                          |
+| Loki           | Placeholder effect: +^1 Mult                                                                |
+| Dexterity      | Gain X0.2 Mult if your played hand is not in the past three hand types played               |
+| Bag            | 1 in 8 chance for +1 Joker slot                                                             |
+| Squire         | +5 mult per round; Mult in 200 chance to collapse and be destroyed                          |
+| Knight         | Shows up when Squire collapses. +3 Mult, X1 Mult; +X0.5 mult when a boss blind is defeated  |
+| Anthill        | X0.5 Mult; Gain XMult based on cards played and scored                                      |
+| Pot of Greed   | -1 Hand size; X2 Hand size<br>Currently bugged. Do not pickup!                              |
+| Florble        | +Chip; +Mult<br>Florbles reproduce after every hand with stats based on your other florbles |
+
+
 
 Adds 4 Decks:
 
@@ -37,9 +40,7 @@ Adds 4 Decks:
 # Known bugs:
 
 - BOGO works for all consumables, even if they're not from the pack you're currently opening
-
 - Loki's effect is not fully implemented (Should be a playable card, rather than just +^1 Mult)
-
 - Pot of greed crashes your game as soon as you buy it
 
 # If you have a bug or feature
