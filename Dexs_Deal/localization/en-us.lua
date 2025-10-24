@@ -3,21 +3,21 @@ return {
         Joker = {
             j_dxd_firstBrother = {
                 name = "The Oldest",
-                text = { "{C:white,X:mult}X1{} mult per Brother Joker you have", "{C:inactive}(Currently {C:white,X:mult}X#1#{C:inactive})" }
+                text = { "{C:white,X:mult}X1{} Mult per Brother Joker you have", "{C:inactive}(Currently {C:white,X:mult}X#1#{C:inactive} Mult)" }
             },
             j_dxd_secondBrother = {
                 name = "The Middle",
-                text = { "Gain {C:mult}+3{} Mult per Brother joker", "{C:inactive}(Currently {C:mult}+#1#{C:inactive})" }
+                text = { "Gain {C:mult}+3{} Mult per Brother joker", "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)" }
             },
             j_dxd_thirdBrother = {
                 name = "The Youngest",
-                text = { "Gain +#2# chips", "when a Joker procs", "{C:inactive}(Currently {C:chips}+#1#{C:inactive})" }
+                text = { "Gain +#2# chips", "when a Joker procs", "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)" }
                 -- will be changed to be only on Brother joker, but for now, it must be all jokers.
             },
             j_dxd_schoolOfFish = {
                 name = "School of Fish",
-                text = { "Adds 1 Fish to your deck", "at the end of the shop", "Gain (2X fish)^2 mult",
-                    "(Currently {C:mult}+#1#{})" }
+                text = { "Adds 1 Fish to your deck", "at the end of the shop", "Gain (2X fish)^2 Mult",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive})" }
             },
             j_dxd_BOGO = {
                 name = "BOGO the Clown",
@@ -31,7 +31,7 @@ return {
             j_dxd_Dexterity = {
                 name = "Dexterity",
                 text = { "Gain {C:white,X:mult}X#1#{} Mult if poker hand is not one of the previous 3 poker hands.",
-                    "(Currently {C:white,X:mult}X#2#{})", "#3#" }
+                    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive}){}", "#3#" }
             },
             j_dxd_bag = {
                 name = "Bag",
@@ -44,22 +44,24 @@ return {
             },
             j_dxd_knight = {
                 name = "Knight",
-                text = { "{C:mult}+#1#{} Mult", "{C:white,X:mult}X#2#{} Mult",
-                    "+{C:white,X:mult}X#3#{} after defeating boss blind" }
+                text = { "{C:mult}+#1#{} Mult",
+                    "+{C:white,X:mult}X#3#{} after defeating boss blind",
+                    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult)" }
             },
             j_dxd_anthill = {
                 name = "Anthill",
-                text = { "{C:white,X:mult}X#1#{}", "+{C:white,X:mult}X#2#{} per card played",
-                    "+{C:white,X:mult}X#3#{} per card scored" }
+                text = { "+{C:white,X:mult}X#2#{} per card played",
+                    "+{C:white,X:mult}X#3#{} per card scored",
+                    "{C:inactive}(Currently {C:white,X:mult}X#1#{C:inactive} Mult)" }
             },
             j_dxd_potOfGreed = {
                 name = "Pot of Greed",
-                text = { "#1# Hand size per round", "X#2# Hand size" }
+                text = { "{C:blue}#1#{} Hand size per round", "{X:blue}X#2#{} Hand size" }
             },
-            j_dxd_Kirby = {
+            j_dxd_kirby = {
                 name = "Kirby",
-                text = { "Consume the Joker to the right", "Randomly select one Joker", "to proc during each hand",
-                    "{C:green}1 in #1#{} chance to proc another Joker", "Keeps rerolling until failure" }
+                text = { "Eat the Joker to the right", "Randomly select one eaten Joker", "to proc during each hand",
+                    "{C:green}1 in #1#{} chance to proc another Joker", "{C:inactive}(Currently #2# Jokers){}" }
             },
             -- multiple description box example
             j_mod_multi_joker = {
@@ -68,7 +70,11 @@ return {
             },
             j_dxd_florble = {
                 name = "Florble",
-                text = { "{C:chips}+#1# Chips{}, {C:mult}+#2# Mult{}", "Florbles reproduce after every hand", "with stats based on your other florbles" }
+                text = { "Genetics: {C:chips}#1#{}|{C:mult}#2#{}", "Gain {C:chips}#1# Chips{} and {C:mult}#2#{} Mult", "Florbles reproduce every hand", "with stats based on your other florbles" }
+            },
+            j_dxd_slots = {
+                name = "Slots",
+                text = { "mult changes based on", "what Joker slot this joker is in", "{C:inactive}(Currently {C:white,X:mult}X#1#{C:inactive} Mult)" }
             }
         }
     }

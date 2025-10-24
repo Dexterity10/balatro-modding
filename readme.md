@@ -23,7 +23,7 @@ Adds 12 Jokers:
 | Squire         | +5 mult per round; Mult in 200 chance to collapse and be destroyed                          |
 | Knight         | Shows up when Squire collapses. +3 Mult, X1 Mult; +X0.5 mult when a boss blind is defeated  |
 | Anthill        | X0.5 Mult; Gain XMult based on cards played and scored                                      |
-| Pot of Greed   | -1 Hand size; X2 Hand size<br>Currently bugged. Do not pickup!                              |
+| Pot of Greed   | -1 Hand size; X2 Hand size                                                                  |
 | Florble        | +Chip; +Mult<br>Florbles reproduce after every hand with stats based on your other florbles |
 
 

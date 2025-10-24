@@ -11,6 +11,10 @@ SMODS.Atlas {
     path = 'Jokers.png'
 }
 SMODS.Atlas {
+    key = "Legendary",
+    px = 71, py = 95, path = "Legendaries.png"
+}
+SMODS.Atlas {
     key = "Deck",
     px = 71,
     py = 95,
@@ -25,5 +29,6 @@ SMODS.Atlas {
 
 assert(SMODS.load_file("Decks.lua"))()
 assert(SMODS.load_file("Jokers.lua"))()
+assert(SMODS.load_file("Legendaries.lua"))()
 assert(SMODS.load_file("Enhancements.lua"))()
 -- assert(SMODS.load_file("Consumables.lua"))()
