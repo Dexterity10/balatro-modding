@@ -17,12 +17,12 @@ SMODS.Joker {
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.xmult }
+            vars = {card.ability.extra.xmult}
         }
     end,
     calculate = function(self, card, context)
         local sumBrothers = #SMODS.find_card('j_dxd_firstBrother') + #SMODS.find_card('j_dxd_secondBrother') +
-            #SMODS.find_card('j_dxd_thirdBrother')
+                                #SMODS.find_card('j_dxd_thirdBrother')
         card.ability.extra.xmult = sumBrothers
         if context.joker_main then
             return {
@@ -54,12 +54,12 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.mult, card.ability.extra.mult_gain }
+            vars = {card.ability.extra.mult, card.ability.extra.mult_gain}
         }
     end,
     calculate = function(self, card, context)
         local sumBrothers = #SMODS.find_card('j_dxd_firstBrother') + #SMODS.find_card('j_dxd_secondBrother') +
-            #SMODS.find_card('j_dxd_thirdBrother')
+                                #SMODS.find_card('j_dxd_thirdBrother')
         card.ability.extra.mult = sumBrothers * 3
         if context.joker_main then
             return {
@@ -92,7 +92,7 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.chips, card.ability.extra.chips_gain }
+            vars = {card.ability.extra.chips, card.ability.extra.chips_gain}
         }
     end,
     calculate = function(self, card, context)
@@ -136,7 +136,7 @@ SMODS.Joker {
         end
         card.ability.extra.mult = toMult ^ 2
         return {
-            vars = { card.ability.extra.mult }
+            vars = {card.ability.extra.mult}
         }
     end,
     calculate = function(self, card, context)
@@ -147,7 +147,7 @@ SMODS.Joker {
             fish_card.config.center:setChips(fish_card, pseudorandom("fish", 1, 10))
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    fish_card:start_materialize({ G.C.SECONDARY_SET.Enhanced })
+                    fish_card:start_materialize({G.C.SECONDARY_SET.Enhanced})
                     G.play:emplace(fish_card)
                     return true
                 end
@@ -164,7 +164,7 @@ SMODS.Joker {
                     draw_card(G.play, G.deck, 90, 'up')
                     SMODS.calculate_context({
                         playing_card_added = true,
-                        cards = { fish_card }
+                        cards = {fish_card}
                     })
                 end
             }
@@ -222,7 +222,7 @@ SMODS.Joker {
     discovered = true,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.gain_slots }
+            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.gain_slots}
         }
     end,
     config = {
@@ -250,7 +250,7 @@ SMODS.Joker {
                         card.T.r = -0.2
                         card:juice_up(0.3, 0.4)
                         G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit +
-                            to_big(card.ability.extra.gain_slots))
+                                                                        to_big(card.ability.extra.gain_slots))
                         return true
                     end
                 }))
@@ -275,7 +275,7 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.odds }
+            vars = {card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.odds}
         }
     end,
     atlas = "Joker",
@@ -341,7 +341,7 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.mult, card.ability.extra.xmult, card.ability.extra.xmult_gain }
+            vars = {card.ability.extra.mult, card.ability.extra.xmult, card.ability.extra.xmult_gain}
         }
     end,
     atlas = "Joker",
@@ -379,7 +379,7 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.xmult, card.ability.extra.gain_played, card.ability.extra.gain_scored }
+            vars = {card.ability.extra.xmult, card.ability.extra.gain_played, card.ability.extra.gain_scored}
         }
     end,
     atlas = "Joker",
@@ -418,12 +418,13 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.hand_gain, card.ability.extra.hand_xgain }
+            vars = {card.ability.extra.hand_gain, card.ability.extra.hand_xgain}
         }
     end,
     atlas = "Joker",
     pos = {
-        x = 4, y = 1
+        x = 4,
+        y = 1
     },
     add_to_deck = function(self, card, from_debuff)
         G.hand:change_size(card.ability.extra.hand_gain)
@@ -455,7 +456,10 @@ SMODS.Joker {
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.chip_points, card.ability.extra.mult_points, (card.ability.extra.coefficient * card.ability.extra.chip_points ^ 0.5), (card.ability.extra.coefficient * math.log(card.ability.extra.mult_points)), card.ability.extra.coefficient }
+            vars = {card.ability.extra.chip_points, card.ability.extra.mult_points,
+                    (card.ability.extra.coefficient * card.ability.extra.chip_points ^ 0.5),
+                    (card.ability.extra.coefficient * math.log(card.ability.extra.mult_points)),
+                    card.ability.extra.coefficient}
         }
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -466,10 +470,10 @@ SMODS.Joker {
             end
         end
         local parentB = pseudorandom_element(florble_list, "florble") or card
-        card.ability.extra.chip_points = (card.ability.extra.chip_points ^ 2 + parentB.ability.extra.chip_points ^ 2) ^
-            0.5 - 0.5
-        card.ability.extra.mult_points = (card.ability.extra.mult_points ^ 2 + parentB.ability.extra.mult_points ^ 2) ^
-            0.5 - 0.5
+        card.ability.extra.chip_points = ((card.ability.extra.chip_points ^ 2 + parentB.ability.extra.chip_points ^ 2) ^
+                                             0.5 - 0.5)
+        card.ability.extra.mult_points = ((card.ability.extra.mult_points ^ 2 + parentB.ability.extra.mult_points ^ 2) ^
+                                             0.5 - 0.5)
         card.ability.extra.coefficient = math.max(1,
             (card.ability.extra.coefficient + parentB.ability.extra.coefficient) / 2 + pseudorandom("florble") - 0.4)
     end,
@@ -494,7 +498,7 @@ SMODS.Joker {
             }))
             return {
                 chips = (card.ability.extra.coefficient * card.ability.extra.chip_points ^ 0.5),
-                mult = (card.ability.extra.coefficient * math.log(card.ability.extra.mult_points)),
+                mult = (card.ability.extra.coefficient * math.log(card.ability.extra.mult_points))
             }
         end
     end
@@ -519,7 +523,7 @@ SMODS.Joker {
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.xmult }
+            vars = {card.ability.extra.xmult}
         }
     end,
     calculate = function(self, card, context)
@@ -537,45 +541,9 @@ SMODS.Joker {
                 end
             end
             slot = 1 + extra.mult_coeff * slot
-            return { xmult = slot }
+            return {
+                xmult = slot
+            }
         end
     end
 }
-
-
--- Replicanti. Do not uncomment
--- SMODS.Joker {
---     key = "replicanti",
---     loc_txt = {
---         name = "Replicanti",
---         text = {"{C:mult}+#1#{} Mult", "Increase Mult by {C:mult}+#2#{} every round",
---                 "Increase the increase of Mult by {C:mult}+#3#{} every round"}
---     },
---     rarity = 3,
---     discovered = true,
---     config = {
---         extra = {
---             base_mult = 1,
---             mult_gain = 1,
---             mult_gain_gain = 1
---         }
---     },
---     loc_vars = function(self, info_queue, card)
---         return {
---             vars = {card.ability.extra.base_mult, card.ability.extra.mult_gain, card.ability.extra.mult_gain_gain}
---         }
---     end,
---     atlas = "Placeholder",
---     calculate = function(self, card, context)
---         if context.end_of_round then
---             card.ability.extra.base_mult = card.ability.extra.base_mult + card.ability.extra.mult_gain
---             card.ability.extra.mult_gain = card.ability.extra.mult_gain + card.ability.extra.mult_gain_gain
---         end
---         if context.joker_main then
-
---             return {
---                 mult = card.ability.extra.base_mult
---             }
---         end
---     end
--- }

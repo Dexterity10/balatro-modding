@@ -1,10 +1,4 @@
 SMODS.Atlas {
-    key = "Placeholder",
-    px = 71,
-    py = 95,
-    path = "Placeholder.png"
-}
-SMODS.Atlas {
     key = "Joker",
     px = 71,
     py = 95,
