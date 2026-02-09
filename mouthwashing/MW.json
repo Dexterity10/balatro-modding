@@ -1,21 +1,15 @@
 {
-    "id": "mouthwash_hearts",
-    "name": "Mouthwashing hearts texture pack",
-    "author": [
-        "dexterity0",
-        "hoagiesnadwich"
-    ],
-    "description": "A texture pack for the hearts suit. Art made by hoagiesnadwich. Coding by dexterity0",
-    "prefix": "MW",
-    "main_file": "MWmain.lua",
-    "priority": 0,
-    "badge_colour": "FF230A",
-    "badge_text_colour": "ABC123",
-    "display_name": "Mouthwashing",
-    "version": "0.1.0",
-    "dependencies": [
-        "Steamodded (>=1.*)",
-        "Lovely (>=0.6)"
-    ],
-    "dump_loc": false
+  "id": "mouthwash_hearts",
+  "name": "Mouthwashing hearts texture pack",
+  "author": ["dexterity0", "hoagiesnadwich"],
+  "description": "A texture pack for the hearts suit. Art made by hoagiesnadwich. Coding by dexterity0",
+  "prefix": "MW",
+  "main_file": "MWmain.lua",
+  "priority": 0,
+  "badge_colour": "FF230A",
+  "badge_text_colour": "ABC123",
+  "display_name": "Mouthwashing",
+  "version": "0.1.0",
+  "dependencies": ["Steamodded (>=1.*)", "Lovely (>=0.6)"],
+  "dump_loc": false
 }

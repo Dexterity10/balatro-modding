@@ -2,9 +2,7 @@ SMODS.Enhancement {
     key = "fish",
     loc_txt = {
         name = "Fish",
-        text = {"no rank or suit" -- "if two or more fish are played in a hand",
-        -- "the fish reproduce and create stronger offspring"
-        }
+        text = {"no rank or suit"}
     },
     no_rank = true,
     no_suit = true,
@@ -25,10 +23,6 @@ SMODS.Enhancement {
     },
     setChips = function(self, card, value)
         card.ability.bonus = value
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-
-        end
     end
-} -- fish
+}
+

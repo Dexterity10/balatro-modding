@@ -6,7 +6,9 @@ SMODS.Atlas {
 }
 SMODS.Atlas {
     key = "Legendary",
-    px = 71, py = 95, path = "Legendaries.png"
+    px = 71,
+    py = 95,
+    path = "Legendaries.png"
 }
 SMODS.Atlas {
     key = "Deck",
@@ -15,7 +17,7 @@ SMODS.Atlas {
     path = "Decks.png"
 }
 SMODS.Atlas {
-    key = "Enhancements",
+    key = "Enhancement",
     px = 71,
     py = 95,
     path = "Enhancements.png"

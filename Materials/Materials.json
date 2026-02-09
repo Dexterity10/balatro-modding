@@ -1,0 +1,15 @@
+{
+  "id": "enhance2material",
+  "name": "Enhancements 2 Materials",
+  "author": ["dexterity0"],
+  "description": "Enhancements that change the card material are in a new category of card modifier called \"Materials\"",
+  "prefix": "e2m",
+  "main_file": "MatMain.lua",
+  "priority": 0,
+  "badge_colour": "0f66af",
+  "badge_text_colour": "96e696",
+  "display_name": "E2M",
+  "version": "0.2.0",
+  "dependencies": ["Steamodded (>=1.*)", "Lovely (>=0.6)"],
+  "dump_loc": false
+}

@@ -547,3 +547,103 @@ SMODS.Joker {
         end
     end
 }
+SMODS.Joker {
+    key = "sixshooter",
+    atlas = "Joker",
+    pos = {
+        x = 2,
+        y = 2
+    },
+    cost = 1,
+    rarity = 1,
+    discovered = true,
+    config = {
+        extra = {
+            max_ammo = 6,
+            current_ammo = 6,
+            mult = 12
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.mult, card.ability.extra.current_ammo, card.ability.extra.max_ammo}
+        }
+    end,
+    calculate = function(self, card, context)
+        local extra = card.ability.extra
+        if context.joker_main then
+            if extra.current_ammo <= 0 then
+                extra.current_ammo = extra.max_ammo
+                return {
+                    message = "Reloading..."
+                }
+            else
+                extra.current_ammo = extra.current_ammo - 1
+                return {
+                    mult = extra.mult
+                }
+            end
+        end
+    end
+}
+SMODS.Joker {
+    key = "sniper",
+    atlas = "Joker",
+    pos = {
+        x = 3,
+        y = 2
+    },
+    cost = 1,
+    rarity = 2,
+    discovered = true,
+    config = {
+        extra = {
+            max_ammo = 3,
+            current_ammo = 3,
+            xmult = 3,
+            type = 'Three of a Kind'
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.xmult, card.ability.extra.current_ammo, card.ability.extra.max_ammo}
+        }
+    end,
+    calculate = function(self, card, context)
+        local extra = card.ability.extra
+        if context.joker_main and next(context.poker_hands[card.ability.extra.type]) then
+            if extra.current_ammo <= 0 then
+                extra.current_ammo = extra.max_ammo
+                return {
+                    message = "Reloading..."
+                }
+            else
+                extra.current_ammo = extra.current_ammo - 1
+                return {
+                    xmult = extra.xmult
+                }
+            end
+        end
+    end
+}
+SMODS.Joker {
+    key = "mirror",
+    atlas = "Joker",
+    pos = {
+        x = 4,
+        y = 2
+    },
+    cost = 1,
+    rarity = 2,
+    discovered = true,
+    blueprint_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                message = "Working!"
+            }
+        end
+    end
+}

@@ -1,20 +1,15 @@
 {
-    "id": "DexsDeal",
-    "name": "Dex's Deal",
-    "author": [
-        "dexterity0"
-    ],
-    "description": "A handful of content with no intent on balancing any of it",
-    "prefix": "dxd",
-    "main_file": "DexMain.lua",
-    "priority": 0,
-    "badge_colour": "0f66af",
-    "badge_text_colour": "96e696",
-    "display_name": "Dex's Deal",
-    "version": "0.2.0",
-    "dependencies": [
-        "Steamodded (>=1.*)",
-        "Lovely (>=0.6)"
-    ],
-    "dump_loc": false
+  "id": "DexsDeal",
+  "name": "Dex's Deal",
+  "author": ["dexterity0"],
+  "description": "A handful of content with no intent on balancing any of it",
+  "prefix": "dxd",
+  "main_file": "DexMain.lua",
+  "priority": 0,
+  "badge_colour": "0f66af",
+  "badge_text_colour": "96e696",
+  "display_name": "Dex's Deal",
+  "version": "1.1",
+  "dependencies": ["Steamodded (>=1.*)", "Lovely (>=0.6)"],
+  "dump_loc": false
 }

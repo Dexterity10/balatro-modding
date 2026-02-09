@@ -1,53 +1,11 @@
 SMODS.Joker {
-    key = "Loki",
-    rarity = 4,
-    cost = 10,
-    discovered = true,
-    blueprint_compat = true,
-    atlas = "Legendary",
-    pos = {
-        x = 1,
-        y = 0
-    },
-    soul_pos = {
-        x = 1,
-        y = 1
-    },
-    config = {
-        extra = {
-            emult = 0,
-            joker_slot_gain = 1
-        }
-    },
-    add_to_deck = function(self, card, from_debuff)
-        G.jokers.config.card_limit = G.jokers.config.card_limit + 1
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        G.jokers.config.card_limit = G.jokers.config.card_limit - 1
-    end,
-    calculate = function(self, card, context)
-        if context.before then
-            card.ability.extra.emult = 1
-        end
-        if context.joker_main then
-            card.ability.extra.emult = card.ability.extra.emult + 1
-        end
-        if context.final_scoring_step then
-            return {
-                emult = card.ability.extra.emult,
-                message = "^" .. card.ability.extra.emult
-            }
-        end
-    end
-}
-SMODS.Joker {
     key = "Dexterity",
     rarity = 4,
     cost = 10,
     discovered = true,
     loc_vars = function(self, info_queue, card)
         local lp = card.ability.extra.lastPlayed
-        local lp_str = { "Last hands played were", "" }
+        local lp_str = {"Last hands played were", ""}
         if lp[3] ~= nil then
             if lp[2] ~= nil then
                 if lp[1] ~= nil then
@@ -58,7 +16,7 @@ SMODS.Joker {
             lp_str[2] = lp_str[2] .. lp[3]
         end
         return {
-            vars = { card.ability.extra.xmult_gain, card.ability.extra.xmult, lp_str }
+            vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult, lp_str}
         }
     end,
     config = {
@@ -94,7 +52,7 @@ SMODS.Joker {
             -- end check for if Dexterity should add a value/reset xmult
             table.insert(lastPlayed, scored) -- add latest hand played
             if #lastPlayed > 3 then
-                table.remove(lastPlayed, 1)  -- remove the 3rd most recent played
+                table.remove(lastPlayed, 1) -- remove the 3rd most recent played
             end
         end
         if context.joker_main then
