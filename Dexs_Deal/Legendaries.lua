@@ -4,19 +4,9 @@ SMODS.Joker {
     cost = 10,
     discovered = true,
     loc_vars = function(self, info_queue, card)
-        local lp = card.ability.extra.lastPlayed
-        local lp_str = {"Last hands played were", ""}
-        if lp[3] ~= nil then
-            if lp[2] ~= nil then
-                if lp[1] ~= nil then
-                    lp_str[2] = lp_str[2] .. lp[1]
-                end
-                lp_str[2] = lp_str[2] .. lp[2]
-            end
-            lp_str[2] = lp_str[2] .. lp[3]
-        end
         return {
-            vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult, lp_str}
+            vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult, card.ability.extra.lastPlayed[1],
+                    card.ability.extra.lastPlayed[2], card.ability.extra.lastPlayed[3]}
         }
     end,
     config = {
