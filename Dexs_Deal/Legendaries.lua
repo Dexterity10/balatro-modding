@@ -29,11 +29,11 @@ SMODS.Joker {
     blueprint_compat = true,
     atlas = "Legendary",
     pos = {
-        x = 2,
+        x = 0,
         y = 0
     },
     soul_pos = {
-        x = 2,
+        x = 0,
         y = 1
     },
     calculate = function(self, card, context)

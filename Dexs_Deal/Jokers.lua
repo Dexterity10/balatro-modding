@@ -1,3 +1,16 @@
+-- SMODS.Joker{
+--     key = "",
+--     atlas = "Joker",
+--     pos = {x= ,y= },
+--     soul_pos ={x= ,y= },
+--     rarity = ,
+--     discovered = true,
+--     config = {extra = {}},
+--     loc_vars= function(self,info_queue,card)
+--     end,
+--     calculate = function(self,card,context)
+--     end
+-- }
 SMODS.Joker {
     key = "firstBrother",
     atlas = "Joker",
@@ -5,22 +18,15 @@ SMODS.Joker {
         x = 0,
         y = 0
     },
-    cost = 4,
+    soul_pos = nil,
     rarity = 2,
     discovered = true,
     config = {
         extra = {
             xmult = 1
-
         }
     },
-    blueprint_compat = true,
-    loc_vars = function(self, info_queue, card)
-        return {
-            vars = {card.ability.extra.xmult}
-        }
-    end,
-    calculate = function(self, card, context)
+    loc_vars = function(self, card, context)
         local sumBrothers = #SMODS.find_card('j_dxd_firstBrother') + #SMODS.find_card('j_dxd_secondBrother') +
                                 #SMODS.find_card('j_dxd_thirdBrother')
         card.ability.extra.xmult = sumBrothers
@@ -30,13 +36,13 @@ SMODS.Joker {
             }
         end
     end,
-    add_to_deck = function(self, card, from_debuff)
+    calculate = function(self, card, from_debuff)
         if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
             SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
         end
     end
-}
+} -- First Brother
 SMODS.Joker {
     key = "secondBrother",
     atlas = "Joker",
@@ -44,7 +50,6 @@ SMODS.Joker {
         x = 1,
         y = 0
     },
-    cost = 3,
     rarity = 2,
     discovered = true,
     config = {
@@ -67,13 +72,13 @@ SMODS.Joker {
             }
         end
     end,
-    add_to_deck = function(self, card, intial, delay_sprites)
+    function(self, card, intial, delay_sprites)
         if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
             SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
         end
     end
-}
+} -- Second Brother
 SMODS.Joker {
     key = "thirdBrother",
     atlas = "Joker",
@@ -81,7 +86,6 @@ SMODS.Joker {
         x = 2,
         y = 0
     },
-    cost = 3,
     rarity = 2,
     discovered = true,
     config = {
@@ -105,13 +109,13 @@ SMODS.Joker {
             }
         end
     end,
-    add_to_deck = function(self, card, intial, delay_sprites)
+    function(self, card, intial, delay_sprites)
         if G.STAGE == G.STAGES.RUN and SMODS.find_card('j_dxd_firstBrother') and SMODS.find_card('j_dxd_secondBrother') and
             SMODS.find_card('j_dxd_thirdBrother') then
             card:set_edition('e_negative')
         end
     end
-}
+} -- Third Brother
 SMODS.Joker {
     key = "schoolOfFish",
     atlas = "Joker",
@@ -119,7 +123,7 @@ SMODS.Joker {
         x = 3,
         y = 0
     },
-    cost = 3,
+    rarity = 2,
     discovered = true,
     config = {
         extra = {
@@ -129,7 +133,7 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         local toMult = 0
-        for k, v in pairs(G.playing_cards or {}) do
+        for _, v in pairs(G.playing_cards or {}) do
             if SMODS.has_enhancement(v, 'm_dxd_fish') then
                 toMult = toMult + card.ability.extra.mult_gain
             end
@@ -154,7 +158,7 @@ SMODS.Joker {
             }))
             return {
                 colour = G.C.SECONDARY_SET.Enhanced,
-                func = function() -- This is for timing purposes, everything here runs after the message
+                func = function()
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             G.deck.config.card_limit = G.deck.config.card_limit + 1
@@ -173,7 +177,7 @@ SMODS.Joker {
             card:add_to_deck()
             G.jokers:emplace(card)
             local toMult = 0
-            for k, v in pairs(G.playing_cards or {}) do
+            for _, v in pairs(G.playing_cards or {}) do
                 if SMODS.has_enhancement(v, 'm_dxd_fish') then
                     toMult = toMult + card.ability.extra.mult_gain
                 end
@@ -184,9 +188,14 @@ SMODS.Joker {
             }
         end
     end
-}
+} -- School of Fish
 SMODS.Joker {
     key = "BOGO",
+    atlas = "Joker",
+    pos = {
+        x = 4,
+        y = 0
+    },
     rarity = 3,
     discovered = true,
     config = {
@@ -194,12 +203,8 @@ SMODS.Joker {
             bogo = true
         }
     },
-    blueprint_compat = true,
-    atlas = "Joker",
-    pos = {
-        x = 4,
-        y = 0
-    },
+    loc_vars = function(self, info_queue, card)
+    end,
     calculate = function(self, card, context)
         if context.using_consumeable and G.booster_pack and not G.booster_pack.REMOVED and SMODS.OPENED_BOOSTER and
             G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
@@ -214,37 +219,35 @@ SMODS.Joker {
             }))
         end
     end
-}
-
+} -- BOGO the Clown
 SMODS.Joker {
     key = "bag",
+    atlas = "Joker",
+    pos = {
+        x = 0,
+        y = 1
+    },
+    soul_pos = {
+        x = 0,
+        y = 2
+    },
     rarity = 2,
     discovered = true,
-    loc_vars = function(self, info_queue, card)
-        return {
-            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.gain_slots}
-        }
-    end,
     config = {
         extra = {
             gain_slots = 1,
             odds = 8
         }
     },
-    blueprint_compat = true,
-    atlas = "Joker",
-    pos = {
-        x = 0,
-        y = 1
-    },
-    add_to_deck = function(self, card, from_debuff)
-        G.jokers.config.card_limit = lenient_bignum(G.jokers.config.card_limit + to_big(card.ability.extra.gain_slots))
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.gain_slots}
+        }
     end,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and G.GAME.blind.boss then
-            if pseudorandom("bagjoker") < G.GAME.probabilities.normal / card.ability.extra.odds then
+            if SMODS.pseudorandom_probability(card, 'bag', 1, card.ability.extra.odds) then
                 G.E_MANAGER:add_event(Event({
-                    -- copied from an example mod on smods... might be not correct coding for what I want lol
                     func = function()
                         play_sound('tarot1')
                         card.T.r = -0.2
@@ -261,9 +264,14 @@ SMODS.Joker {
             }
         end
     end
-}
+} -- Bag
 SMODS.Joker {
     key = "squire",
+    atlas = "Joker",
+    pos = {
+        x = 1,
+        y = 1
+    },
     rarity = 2,
     discovered = true,
     config = {
@@ -278,11 +286,6 @@ SMODS.Joker {
             vars = {card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.odds}
         }
     end,
-    atlas = "Joker",
-    pos = {
-        x = 1,
-        y = 1
-    },
     calculate = function(self, card, context)
         local cardmultgain = card.ability.extra.mult_gain
         if context.before then
@@ -294,7 +297,7 @@ SMODS.Joker {
             }
         end
         if context.end_of_round and not context.repetition then
-            if pseudorandom('squire') < card.ability.extra.mult / card.ability.extra.odds then
+            if SMODS.pseudorandom_probability(card, 'bloodlust', card.ability.extra.mult, card.ability.extra.odds) then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -327,9 +330,15 @@ SMODS.Joker {
             end
         end
     end
-}
+} -- Squire
 SMODS.Joker {
     key = "knight",
+    atlas = "Joker",
+    pos = {
+        x = 2,
+        y = 1
+    },
+
     rarity = 2,
     discovered = true,
     config = {
@@ -344,14 +353,9 @@ SMODS.Joker {
             vars = {card.ability.extra.mult, card.ability.extra.xmult, card.ability.extra.xmult_gain}
         }
     end,
-    atlas = "Joker",
-    pos = {
-        x = 2,
-        y = 1
-    },
     calculate = function(self, card, context)
         local cardmultgain = card.ability.extra.xmult_gain
-        if context.end_of_round and context.game_over == false and context.main_eval and G.GAME.blind.boss then
+        if context.end_of_round and not context.game_over and context.main_eval and G.GAME.blind.boss then
             card.ability.extra.xmult = card.ability.extra.xmult + cardmultgain
         end
         if context.joker_main then
@@ -361,14 +365,18 @@ SMODS.Joker {
             }
         end
     end,
-    in_pool = function(self, args)
+    add_to_deck = function(self, card, from_debuff)
         return G.GAME.pool_flags.squire_extinct
     end
-}
+} -- Knight
 SMODS.Joker {
     key = "anthill",
+    atlas = "Joker",
+    pos = {
+        x = 3,
+        y = 1
+    },
     rarity = 3,
-    cost = 5,
     discovered = true,
     config = {
         extra = {
@@ -382,11 +390,6 @@ SMODS.Joker {
             vars = {card.ability.extra.xmult, card.ability.extra.gain_played, card.ability.extra.gain_scored}
         }
     end,
-    atlas = "Joker",
-    pos = {
-        x = 3,
-        y = 1
-    },
     calculate = function(self, card, context)
         if context.before then
             local total = #context.full_hand * card.ability.extra.gain_played
@@ -404,11 +407,15 @@ SMODS.Joker {
             }
         end
     end
-}
+} -- Anthil
 SMODS.Joker {
     key = "potOfGreed",
+    atlas = "Joker",
+    pos = {
+        x = 4,
+        y = 1
+    },
     rarity = 2,
-    cost = 5,
     discovered = true,
     config = {
         extra = {
@@ -421,140 +428,18 @@ SMODS.Joker {
             vars = {card.ability.extra.hand_gain, card.ability.extra.hand_xgain}
         }
     end,
-    atlas = "Joker",
-    pos = {
-        x = 4,
-        y = 1
-    },
-    add_to_deck = function(self, card, from_debuff)
+    calculate = function(self, card, from_debuff)
         G.hand:change_size(card.ability.extra.hand_gain)
         G.hand:change_size(G.hand.config.card_limit * (card.ability.extra.hand_xgain - 1))
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        G.hand:change_size(-card.ability.extra.hand_gain)
-        G.hand:change_size(-G.hand.config.card_limit / (card.ability.extra.hand_xgain))
     end
-}
-
+} -- Pot of Greed
 SMODS.Joker {
-    key = "florble",
-    atlas = "Joker",
-    pos = {
-        x = 0,
-        y = 2
-    },
-    cost = 1,
-    rarity = 3,
-    discovered = true,
-    config = {
-        extra = {
-            chip_points = 1, -- chips
-            mult_points = 1, -- mult
-            coefficient = 1
-        }
-    },
-    blueprint_compat = true,
-    loc_vars = function(self, info_queue, card)
-        return {
-            vars = {card.ability.extra.chip_points, card.ability.extra.mult_points,
-                    (card.ability.extra.coefficient * card.ability.extra.chip_points ^ 0.5),
-                    (card.ability.extra.coefficient * math.log(card.ability.extra.mult_points)),
-                    card.ability.extra.coefficient}
-        }
-    end,
-    add_to_deck = function(self, card, from_debuff)
-        local florble_list = {}
-        for _, v in pairs(G.jokers and G.jokers.cards or {}) do
-            if v.config.center.key == "j_dxd_florble" then
-                table.insert(florble_list, v)
-            end
-        end
-        local parentB = pseudorandom_element(florble_list, "florble") or card
-        card.ability.extra.chip_points = ((card.ability.extra.chip_points ^ 2 + parentB.ability.extra.chip_points ^ 2) ^
-                                             0.5 - 0.5)
-        card.ability.extra.mult_points = ((card.ability.extra.mult_points ^ 2 + parentB.ability.extra.mult_points ^ 2) ^
-                                             0.5 - 0.5)
-        card.ability.extra.coefficient = math.max(1,
-            (card.ability.extra.coefficient + parentB.ability.extra.coefficient) / 2 + pseudorandom("florble") - 0.4)
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    if #G.jokers.cards < G.jokers.config.card_limit then
-                        local florble_list = {}
-                        for _, v in pairs(G.jokers and G.jokers.cards or {}) do
-                            if v.config.center.key == "j_dxd_florble" then
-                                table.insert(florble_list, v)
-                            end
-                        end
-                        local parentA = pseudorandom_element(florble_list, "florble") or card
-                        local copied = copy_card(parentA)
-                        copied:add_to_deck()
-                        G.jokers:emplace(copied)
-                    end
-                    return true
-                end
-            }))
-            return {
-                chips = (card.ability.extra.coefficient * card.ability.extra.chip_points ^ 0.5),
-                mult = (card.ability.extra.coefficient * math.log(card.ability.extra.mult_points))
-            }
-        end
-    end
-}
-SMODS.Joker {
-    key = "slots",
-    atlas = "Joker",
-    pos = {
-        x = 1,
-        y = 2
-    },
-    cost = 1,
-    rarity = 2,
-    discovered = true,
-    config = {
-        extra = {
-            xmult = 1,
-            xmult_coeff = 0.2,
-            xmult_pow = 1.5
-        }
-    },
-    blueprint_compat = true,
-    loc_vars = function(self, info_queue, card)
-        return {
-            vars = {card.ability.extra.xmult}
-        }
-    end,
-    calculate = function(self, card, context)
-        local extra = card.ability.extra
-        local slot = 0
-        if context.joker_main then
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    slot = slot + i
-                    if G.jokers.cards[i] > 5 then
-                        slot = slot ^ extra.mult_pow
-                    else
-                        break
-                    end
-                end
-            end
-            slot = 1 + extra.mult_coeff * slot
-            return {
-                xmult = slot
-            }
-        end
-    end
-}
-SMODS.Joker {
-    key = "sixshooter",
+    key = 'sixShooter',
     atlas = "Joker",
     pos = {
         x = 2,
         y = 2
     },
-    cost = 1,
     rarity = 1,
     discovered = true,
     config = {
@@ -564,7 +449,6 @@ SMODS.Joker {
             mult = 12
         }
     },
-    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
         return {
             vars = {card.ability.extra.mult, card.ability.extra.current_ammo, card.ability.extra.max_ammo}
@@ -586,7 +470,7 @@ SMODS.Joker {
             end
         end
     end
-}
+} -- Six Shooter
 SMODS.Joker {
     key = "sniper",
     atlas = "Joker",
@@ -594,7 +478,6 @@ SMODS.Joker {
         x = 3,
         y = 2
     },
-    cost = 1,
     rarity = 2,
     discovered = true,
     config = {
@@ -605,7 +488,6 @@ SMODS.Joker {
             type = 'Three of a Kind'
         }
     },
-    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
         return {
             vars = {card.ability.extra.xmult, card.ability.extra.current_ammo, card.ability.extra.max_ammo}
@@ -627,7 +509,7 @@ SMODS.Joker {
             end
         end
     end
-}
+} -- Sniper Rifle
 SMODS.Joker {
     key = "mirror",
     atlas = "Joker",
@@ -635,18 +517,21 @@ SMODS.Joker {
         x = 4,
         y = 2
     },
-    cost = 1,
     rarity = 2,
     discovered = true,
-    blueprint_compat = true,
-    calculate = function(self, card, context)
+    config = {
+        extra = {}
+    },
+    loc_vars = function(self, info_queue, card)
+    end,
+    function(self, card, context)
         if context.joker_main then
             return {
                 message = "Working!"
             }
         end
     end
-}
+} -- Mirror
 SMODS.Joker {
     key = "bloodlust",
     atlas = "Joker",
@@ -654,28 +539,24 @@ SMODS.Joker {
         x = 0,
         y = 3
     },
-    cost = 1,
+    -- soul_pos ={x= ,y= },
     rarity = 1,
     discovered = true,
     config = {
-        extra = {
-            hand_gain = 1,
-            odds = 6
-        }
+        extra = {}
     },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = {card.ability.extra.odds, card.ability.extra.hand_gain}
+            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.hand_gain}
         }
     end,
-    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:is_suit("Hearts") and
-            pseudorandom('bloodlust') < G.GAME.probabilities.normal / card.ability.extra.odds then
+            SMODS.pseudorandom_probability(card, 'bloodlust', 1, card.ability.extra.odds) then
             ease_hands_played(card.ability.extra.hand_gain)
         end
     end
-}
+} -- Bloodlust
 SMODS.Joker {
     key = "sharpTeeth",
     atlas = "Joker",
@@ -683,25 +564,23 @@ SMODS.Joker {
         x = 1,
         y = 3
     },
-    cost = 1,
     rarity = 2,
     discovered = true,
-    config = {
-        extra = {
-            odds = 10,
-            percentDamage = 20
-        }
-    },
     loc_vars = function(self, info_queue, card)
         return {
-            vars = {card.ability.extra.odds, card.ability.extra.percentDamage}
+            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds}
         }
     end,
-    blueprint_compat = true,
     calculate = function(self, card, context)
-
+        if context.discard then
+            if SMODS.pseudorandom_probability(card, 'sharpTeeth', 1, card.ability.extra.odds) then
+                return {
+                    remove = true
+                }
+            end
+        end
     end
-}
+} -- Sharp Teeth
 SMODS.Joker {
     key = "throneButt",
     atlas = "Joker",
@@ -709,7 +588,6 @@ SMODS.Joker {
         x = 2,
         y = 3
     },
-    cost = 1,
     rarity = 2,
     discovered = true,
     config = {
@@ -722,8 +600,40 @@ SMODS.Joker {
             vars = {card.ability.extra.xmult}
         }
     end,
-    blueprint_compat = true,
     calculate = function(self, card, context)
-
+        local isFaces = true
+        if context.joker_main then
+            for k, v in pairs(context.scoring_hand or {}) do
+                isFaces = v:is_face()
+            end
+            return {
+                xmult = card.ability.extra.xmult ^ (isFaces and 1 or 0)
+            }
+        end
     end
-}
+} -- Throne Butt
+SMODS.Joker {
+    key = "scarierFace",
+    atlas = "Joker",
+    pos = {
+        x = 3,
+        y = 3
+    },
+    rarity = 3,
+    discovered = true,
+    config = {
+        extra = {}
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {G.GAME.current_round.hands_left}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                chips = G.GAME.chips * (1 + G.GAME.current_round.hands_left / 100)
+            }
+        end
+    end
+} -- Scarier Face

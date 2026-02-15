@@ -79,7 +79,7 @@ return {
                 text = {"mult changes based on", "what Joker slot this joker is in",
                         "{C:inactive}(Currently {C:white,X:mult}X#1#{C:inactive} Mult)"}
             },
-            j_dxd_sixshooter = {
+            j_dxd_sixShooter = {
                 name = "Six Shooter",
                 text = {"Fire for {C:mult}+#1#{} Mult", "#2# / #3# ammo remaining"}
             },
@@ -94,13 +94,16 @@ return {
             },
             j_dxd_bloodlust = {
                 name = "Bloodlust",
-                text = {"{C:green}1 in #1#{} chance for", "played cards with {C:hearts}Heart{} suit",
-                        "to give {C:blue}+#2#{} hand"}
+                text = {"{C:green}#1# in #2#{} chance for", "played cards with {C:hearts}Heart{} suit",
+                        "to give {C:blue}+#3#{} hand"}
             },
             j_dxd_sharpTeeth = {
                 name = "Sharp Teeth",
-                text = {"{C:green}1 in #1#{} chance", "for discarded cards", "to be scored", "plus #2#% of the current",
-                        "blind's chip requirement", " then destroyed"}
+                text = {"{C:green}#1# in #2#{} chance", "for discarded cards", "to be destroyed"}
+            },
+            j_dxd_scarierFace = {
+                name = "Scarier Face",
+                text = {"Adds {C:blue}#1#{}% of {C:attention}Round Score{} to chips", "based on {C:blue}hand{}s left"}
             },
             j_dxd_throneButt = {
                 name = "Throne Butt",
