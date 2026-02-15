@@ -647,3 +647,83 @@ SMODS.Joker {
         end
     end
 }
+SMODS.Joker {
+    key = "bloodlust",
+    atlas = "Joker",
+    pos = {
+        x = 0,
+        y = 3
+    },
+    cost = 1,
+    rarity = 1,
+    discovered = true,
+    config = {
+        extra = {
+            hand_gain = 1,
+            odds = 6
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.odds, card.ability.extra.hand_gain}
+        }
+    end,
+    blueprint_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and context.other_card:is_suit("Hearts") and
+            pseudorandom('bloodlust') < G.GAME.probabilities.normal / card.ability.extra.odds then
+            ease_hands_played(card.ability.extra.hand_gain)
+        end
+    end
+}
+SMODS.Joker {
+    key = "sharpTeeth",
+    atlas = "Joker",
+    pos = {
+        x = 1,
+        y = 3
+    },
+    cost = 1,
+    rarity = 2,
+    discovered = true,
+    config = {
+        extra = {
+            odds = 10,
+            percentDamage = 20
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.odds, card.ability.extra.percentDamage}
+        }
+    end,
+    blueprint_compat = true,
+    calculate = function(self, card, context)
+
+    end
+}
+SMODS.Joker {
+    key = "throneButt",
+    atlas = "Joker",
+    pos = {
+        x = 2,
+        y = 3
+    },
+    cost = 1,
+    rarity = 2,
+    discovered = true,
+    config = {
+        extra = {
+            xmult = 4
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.xmult}
+        }
+    end,
+    blueprint_compat = true,
+    calculate = function(self, card, context)
+
+    end
+}

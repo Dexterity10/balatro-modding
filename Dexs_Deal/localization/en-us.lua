@@ -24,7 +24,7 @@ return {
             },
             j_dxd_BOGO = {
                 name = "BOGO the Clown",
-                text = {"Using a consumable from a booster pack gives you", "a copy in your consumable slots"}
+                text = {"Using a consumable", "from a booster pack", "gives you a copy", "in your consumable slots"}
             },
             j_dxd_Loki = {
                 name = "Loki",
@@ -90,8 +90,21 @@ return {
             },
             j_dxd_mirror = {
                 name = "Mirror",
-                text = {"Retrigger all scored cards", "in reverse if",
-                        "scored cards are palindromic"}
+                text = {"Retrigger all scored cards", "in reverse if", "scored cards are palindromic"}
+            },
+            j_dxd_bloodlust = {
+                name = "Bloodlust",
+                text = {"{C:green}1 in #1#{} chance for", "played cards with {C:hearts}Heart{} suit",
+                        "to give {C:blue}+#2#{} hand"}
+            },
+            j_dxd_sharpTeeth = {
+                name = "Sharp Teeth",
+                text = {"{C:green}1 in #1#{} chance", "for discarded cards", "to be scored", "plus #2#% of the current",
+                        "blind's chip requirement", " then destroyed"}
+            },
+            j_dxd_throneButt = {
+                name = "Throne Butt",
+                text = {"{C:white,X:mult}X#1#{} Mult", "if scored hand", "is all face cards"}
             }
         }
     }
