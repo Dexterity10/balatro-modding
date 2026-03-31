@@ -582,6 +582,31 @@ SMODS.Joker {
     end
 } -- Sharp Teeth
 SMODS.Joker {
+    key = "scarierFace",
+    atlas = "Joker",
+    pos = {
+        x = 3,
+        y = 3
+    },
+    rarity = 3,
+    discovered = true,
+    config = {
+        extra = {}
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {G.GAME.current_round.hands_left}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                chips = G.GAME.chips * (1 + G.GAME.current_round.hands_left / 100)
+            }
+        end
+    end
+} -- Scarier Face
+SMODS.Joker {
     key = "throneButt",
     atlas = "Joker",
     pos = {
@@ -612,28 +637,4 @@ SMODS.Joker {
         end
     end
 } -- Throne Butt
-SMODS.Joker {
-    key = "scarierFace",
-    atlas = "Joker",
-    pos = {
-        x = 3,
-        y = 3
-    },
-    rarity = 3,
-    discovered = true,
-    config = {
-        extra = {}
-    },
-    loc_vars = function(self, info_queue, card)
-        return {
-            vars = {G.GAME.current_round.hands_left}
-        }
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                chips = G.GAME.chips * (1 + G.GAME.current_round.hands_left / 100)
-            }
-        end
-    end
-} -- Scarier Face
+
